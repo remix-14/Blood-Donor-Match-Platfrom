@@ -1,0 +1,2119 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donor Match — UI Prototype</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Prompt & Sarabun -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'Sarabun', 'sans-serif'],
+                    },
+                    colors: {
+                        bloodRed: {
+                            DEFAULT: '#D32F2F',
+                            dark: '#99000D',
+                            light: '#FFEBEB',
+                        },
+                        medicalNavy: {
+                            DEFAULT: '#143652',
+                            light: '#1E4D75',
+                        },
+                        softBlue: {
+                            DEFAULT: '#BAF6FF',
+                            light: '#E3EEFF',
+                            text: '#0D47A1',
+                        },
+                        successGreen: {
+                            DEFAULT: '#2E8B57',
+                            light: '#DCF2E5',
+                        },
+                        bgCanvas: '#F5F9FC'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F5F9FC;
+            color: #143652;
+            font-family: 'Prompt', sans-serif;
+            overflow-x: hidden;
+        }
+        /* Slide-inspired decorative curve */
+        .top-right-curve {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle at top right, #D32F2F 0%, #99000D 100%);
+            clip-path: circle(70% at 100% 0%);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.92;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .pill-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .pill-btn:active {
+            transform: scale(0.97);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative">
+
+    <!-- Slide Decorative Curve -->
+    <div class="top-right-curve hidden md:block"></div>
+
+    <!-- ========================================== -->
+    <!-- LOGIN SCREEN (หน้าแรกสุดก่อนเข้าสู่ระบบ)        -->
+    <!-- ========================================== -->
+    <div id="login-screen" class="min-h-screen flex items-center justify-center p-4 sm:p-6 relative z-20">
+        <div class="max-w-5xl w-full bg-white rounded-[32px] shadow-2xl border border-slate-200/80 overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+            
+            <!-- Left Panel: Brand & Slide Design Overview -->
+            <div class="lg:col-span-5 bg-gradient-to-br from-medicalNavy via-medicalNavy-light to-bloodRed-dark p-7 sm:p-10 text-white flex flex-col justify-between relative overflow-hidden">
+                <div class="relative z-10">
+                    <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/15 text-softBlue text-xs font-semibold mb-6">
+                        <i class="fa-solid fa-droplet text-bloodRed bg-white w-5 h-5 rounded-full flex items-center justify-center text-[10px]"></i>
+                        <span>Blood Donor Match • UI Prototype</span>
+                    </div>
+
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-14 h-14 rounded-2xl bg-bloodRed flex items-center justify-center text-3xl shadow-lg border border-white/20 shrink-0">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl sm:text-3xl font-bold leading-tight">Blood Donor Match</h1>
+                            <p class="text-xs text-softBlue">Smart Blood Donation Platform</p>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-slate-200 leading-relaxed mt-4">
+                        ระบบแพลตฟอร์มกลางสำหรับเชื่อมโยง <strong>ผู้ขอรับโลหิต</strong>, <strong>ผู้บริจาคโลหิต</strong> และ <strong>เจ้าหน้าที่โรงพยาบาล</strong> เพื่อจับคู่โลหิตที่เข้ากันได้ตามหมู่เลือด พื้นที่ และความพร้อมอย่างรวดเร็วและปลอดภัย
+                    </p>
+
+                    <!-- Role Highlights from Slide 14 -->
+                    <div class="mt-7 space-y-2.5 text-xs">
+                        <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/10">
+                            <span class="w-7 h-7 rounded-lg bg-bloodRed-light text-bloodRed flex items-center justify-center font-bold shrink-0"><i class="fa-solid fa-hand-holding-medical"></i></span>
+                            <span><strong>Requester:</strong> สร้างคำขอเลือด & ติดตามสถานะ 8 ขั้นตอน</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/10">
+                            <span class="w-7 h-7 rounded-lg bg-softBlue-light text-medicalNavy flex items-center justify-center font-bold shrink-0"><i class="fa-solid fa-heart"></i></span>
+                            <span><strong>Donor:</strong> แจ้งเตือนเคสใกล้ตัว & สวิตช์สถานะพร้อมบริจาค</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/10">
+                            <span class="w-7 h-7 rounded-lg bg-successGreen-light text-successGreen flex items-center justify-center font-bold shrink-0"><i class="fa-solid fa-user-doctor"></i></span>
+                            <span><strong>Hospital Staff:</strong> ตรวจสอบคำขอ & ยืนยันการบริจาค</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative z-10 mt-8 pt-5 border-t border-white/15 flex items-center justify-between gap-2">
+                    <button type="button" onclick="enterGuestArchitecture()" class="text-xs font-medium text-softBlue hover:text-white flex items-center gap-1.5 transition">
+                        <i class="fa-solid fa-diagram-project"></i>
+                        <span>ดูภาพรวม Process 8 ขั้นตอน & Architecture</span>
+                    </button>
+                    <div class="flex items-center gap-1">
+                        <span class="w-2.5 h-2.5 rounded-full bg-bloodRed border border-white/40"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-medicalNavy border border-white/40"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-softBlue"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-white"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-successGreen"></span>
+                    </div>
+                </div>
+
+                <i class="fa-solid fa-hand-holding-droplet text-[180px] text-white/5 absolute -right-8 -bottom-8 pointer-events-none"></i>
+            </div>
+
+            <!-- Right Panel: Login Form & Role Selection -->
+            <div class="lg:col-span-7 p-7 sm:p-10 flex flex-col justify-center">
+                <div class="mb-6">
+                    <div class="flex items-center gap-2.5 mb-1">
+                        <span class="w-1.5 h-6 bg-bloodRed rounded-full"></span>
+                        <h2 class="text-2xl font-bold text-medicalNavy">เข้าสู่ระบบ (Sign In)</h2>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-500">เลือกบทบาทผู้ใช้งานที่ต้องการทดสอบ ระบบจะกรอกบัญชีตัวอย่างให้อัตโนมัติ</p>
+                </div>
+
+                <!-- Step 1: Select Role Cards (Matching Slide 14 Colors) -->
+                <div class="mb-5">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2.5">1. เลือกบทบาทผู้ใช้งาน (Select Role)</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <!-- Requester Role Card -->
+                        <button type="button" onclick="selectLoginRole('requester')" id="login-role-card-requester"
+                            class="p-3.5 rounded-2xl border-2 text-left transition-all flex sm:flex-col items-center sm:items-start gap-3 sm:gap-2">
+                            <div class="w-10 h-10 rounded-xl bg-bloodRed text-white flex items-center justify-center text-lg shrink-0 shadow-sm">
+                                <i class="fa-solid fa-hand-holding-medical"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-sm text-bloodRed">Requester</div>
+                                <div class="text-[11px] text-slate-600">ผู้ขอรับเลือด / ญาติ</div>
+                            </div>
+                        </button>
+
+                        <!-- Donor Role Card -->
+                        <button type="button" onclick="selectLoginRole('donor')" id="login-role-card-donor"
+                            class="p-3.5 rounded-2xl border-2 text-left transition-all flex sm:flex-col items-center sm:items-start gap-3 sm:gap-2">
+                            <div class="w-10 h-10 rounded-xl bg-medicalNavy text-white flex items-center justify-center text-lg shrink-0 shadow-sm">
+                                <i class="fa-solid fa-heart-pulse"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-sm text-medicalNavy">Donor</div>
+                                <div class="text-[11px] text-slate-600">ผู้บริจาคโลหิต</div>
+                            </div>
+                        </button>
+
+                        <!-- Hospital Staff Role Card -->
+                        <button type="button" onclick="selectLoginRole('staff')" id="login-role-card-staff"
+                            class="p-3.5 rounded-2xl border-2 text-left transition-all flex sm:flex-col items-center sm:items-start gap-3 sm:gap-2">
+                            <div class="w-10 h-10 rounded-xl bg-successGreen text-white flex items-center justify-center text-lg shrink-0 shadow-sm">
+                                <i class="fa-solid fa-user-doctor"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-sm text-successGreen">Hospital Staff</div>
+                                <div class="text-[11px] text-slate-600">เจ้าหน้าที่โรงพยาบาล</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Credentials Form -->
+                <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-medicalNavy mb-1.5">ชื่อผู้ใช้งาน / อีเมล (Username or Email)</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+                            <input type="text" id="login-username" required
+                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-bloodRed focus:border-bloodRed outline-none text-sm bg-slate-50/60 font-medium text-medicalNavy">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label class="block text-xs font-semibold text-medicalNavy">รหัสผ่าน (Password)</label>
+                            <span id="login-role-hint" class="text-[11px] font-medium text-bloodRed">บัญชีทดสอบ: ผู้ขอรับเลือด</span>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                <i class="fa-solid fa-lock"></i>
+                            </span>
+                            <input type="password" id="login-password" value="demo1234" required
+                                class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-bloodRed focus:border-bloodRed outline-none text-sm bg-slate-50/60 text-medicalNavy">
+                            <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-medicalNavy">
+                                <i id="password-eye-icon" class="fa-solid fa-eye text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="pill-btn w-full py-3.5 rounded-full bg-bloodRed hover:bg-bloodRed-dark text-white font-bold text-sm sm:text-base shadow-lg shadow-bloodRed/25 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            <span>เข้าสู่ระบบ (Login)</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Quick Demo Switch Shortcuts -->
+                <div class="mt-6 pt-5 border-t border-slate-100">
+                    <p class="text-[11px] font-semibold text-slate-400 text-center mb-2.5">หรือคลิกเข้าสู่ระบบทดสอบทันที (Demo Quick Login)</p>
+                    <div class="flex flex-wrap items-center justify-center gap-2">
+                        <button type="button" onclick="quickDemoLogin('requester')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-bloodRed-light text-bloodRed hover:bg-bloodRed hover:text-white transition">
+                            เข้าใช้งาน Requester
+                        </button>
+                        <button type="button" onclick="quickDemoLogin('donor')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-softBlue-light text-medicalNavy hover:bg-medicalNavy hover:text-white transition">
+                            เข้าใช้งาน Donor
+                        </button>
+                        <button type="button" onclick="quickDemoLogin('staff')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-successGreen-light text-successGreen hover:bg-successGreen hover:text-white transition">
+                            เข้าใช้งาน Hospital Staff
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MAIN APP SHELL (ซ่อนไว้จนกว่าจะล็อคอินสำเร็จ)  -->
+    <!-- ========================================== -->
+    <div id="main-app-shell" class="hidden min-h-screen flex-col">
+
+    <!-- Top Navigation & Role Switcher -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between py-3 gap-3">
+                
+                <!-- Brand Title (Matching Slide Header) -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-2.5 h-9 bg-bloodRed rounded-full"></div>
+                        <div>
+                            <span class="text-xs font-semibold tracking-wider text-bloodRed uppercase block">Blood Donor Match</span>
+                            <h1 class="text-xl sm:text-2xl font-bold text-medicalNavy flex items-center gap-2">
+                                UI Prototype
+                                <span id="active-user-badge" class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-slate-100 text-medicalNavy border border-slate-200">
+                                    <i class="fa-solid fa-circle-user text-bloodRed mr-1"></i>คุณวิภาดา (Requester)
+                                </span>
+                            </h1>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Notification & Logout Quick Actions -->
+                    <div class="flex items-center gap-1.5 lg:hidden">
+                        <button onclick="switchRole('donor', 'notification')" class="relative p-2 text-medicalNavy hover:bg-slate-100 rounded-full">
+                            <i class="fa-solid fa-bell text-lg"></i>
+                            <span id="mobile-notif-badge" class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-bloodRed rounded-full"></span>
+                        </button>
+                        <button onclick="logoutUser()" class="px-3 py-1.5 rounded-full bg-slate-100 hover:bg-bloodRed hover:text-white text-slate-700 text-xs font-semibold transition flex items-center gap-1">
+                            <i class="fa-solid fa-right-from-bracket"></i> ออก
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Role Switcher Pills & Logout Button -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <div class="flex flex-wrap items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200/80 flex-1 lg:flex-none">
+                        <button onclick="switchRole('requester')" id="role-btn-requester"
+                            class="role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition-all">
+                            <i class="fa-solid fa-hand-holding-medical"></i>
+                            <span>Requester</span>
+                        </button>
+
+                        <button onclick="switchRole('donor')" id="role-btn-donor"
+                            class="role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition-all relative">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                            <span>Donor</span>
+                            <span id="donor-notif-dot" class="hidden w-2 h-2 rounded-full bg-bloodRed animate-ping"></span>
+                        </button>
+
+                        <button onclick="switchRole('staff')" id="role-btn-staff"
+                            class="role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition-all relative">
+                            <i class="fa-solid fa-user-doctor"></i>
+                            <span>Hospital Staff</span>
+                            <span id="staff-pending-badge" class="ml-0.5 px-1.5 py-0.2 text-[10px] font-bold rounded-full bg-amber-500 text-white">1</span>
+                        </button>
+
+                        <button onclick="switchRole('architecture')" id="role-btn-architecture"
+                            class="role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition-all">
+                            <i class="fa-solid fa-diagram-project"></i>
+                            <span>8 Steps</span>
+                        </button>
+                    </div>
+
+                    <!-- Desktop Logout Button -->
+                    <button onclick="logoutUser()" class="hidden lg:flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-100 hover:bg-bloodRed text-slate-700 hover:text-white text-xs font-semibold border border-slate-200 transition">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>ออกจากระบบ</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sub-navigation Tabs (Dynamic per Role) -->
+            <div id="sub-nav-container" class="flex items-center gap-2 overflow-x-auto pb-2.5 pt-1 no-scrollbar">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Interactive Workspace -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 relative z-10">
+        <!-- Interactive Workflow Guide Banner -->
+        <div class="mb-6 bg-white border border-slate-200 rounded-2xl p-3.5 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-softBlue-light text-medicalNavy flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-lightbulb text-amber-500"></i>
+                </div>
+                <div class="text-xs sm:text-sm text-slate-600">
+                    <span class="font-semibold text-medicalNavy">ทดลองใช้งานครบวงจร (End-to-End Flow):</span>
+                    1. สร้างคำขอเลือดในหน้า <span class="text-bloodRed font-medium">Requester</span> → 
+                    2. กดยืนยันคำขอในหน้า <span class="text-successGreen font-medium">Hospital Staff</span> → 
+                    3. กดตอบรับบริจาคในหน้า <span class="text-medicalNavy font-medium">Donor</span> → 
+                    4. บันทึกบริจาคสำเร็จในหน้า <span class="text-successGreen font-medium">Hospital Staff</span>
+                </div>
+            </div>
+            <button onclick="resetDemoData()" class="shrink-0 text-xs font-medium px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 transition">
+                <i class="fa-solid fa-rotate-right mr-1"></i> รีเซ็ตข้อมูลตัวอย่าง
+            </button>
+        </div>
+
+        <!-- Dynamic View Container -->
+        <div id="app-view"></div>
+    </main>
+
+    <!-- Footer (Slide Page Indicator Style) -->
+    <footer class="bg-white border-t border-slate-200 py-4 mt-12 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+            <div class="flex items-center gap-2">
+                <span class="font-bold text-bloodRed">Blood Donor Match</span>
+                <span>•</span>
+                <span>ระบบจับคู่ผู้บริจาคโลหิตและโรงพยาบาลอัจฉริยะ</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-1.5">
+                    <span class="w-3 h-3 rounded-full bg-bloodRed-dark inline-block" title="Blood Red"></span>
+                    <span class="w-3 h-3 rounded-full bg-medicalNavy inline-block" title="Medical Navy"></span>
+                    <span class="w-3 h-3 rounded-full bg-softBlue inline-block border border-slate-300" title="Soft Blue"></span>
+                    <span class="w-3 h-3 rounded-full bg-white inline-block border border-slate-300" title="White"></span>
+                    <span class="w-3 h-3 rounded-full bg-successGreen inline-block" title="Success Green"></span>
+                </div>
+                <span class="font-semibold text-medicalNavy">UI Prototype v1.0</span>
+            </div>
+        </div>
+    </footer>
+    </div> <!-- End #main-app-shell -->
+
+    <!-- Modal for 'ดูรายละเอียด' (View Details) -->
+    <div id="detail-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-medicalNavy/50 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-100 overflow-hidden animate-[fadeIn_0.2s_ease-out]">
+            <div id="modal-header" class="px-6 py-4 bg-medicalNavy text-white flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-file-medical text-softBlue"></i>
+                    <h3 id="modal-title" class="font-semibold text-lg">รายละเอียดคำขอเลือด</h3>
+                </div>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="modal-body" class="p-6 max-h-[80vh] overflow-y-auto">
+                <!-- Dynamic Modal Content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container (No alert() used!) -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+    <script>
+        // ==========================================
+        // 1. STATE & MOCK DATA (8-Step Business Process)
+        // ==========================================
+        const PROCESS_STEPS = [
+            { step: 1, title: 'ต้องการเลือด', desc: 'ผู้ป่วยมีความต้องการโลหิตเร่งด่วน' },
+            { step: 2, title: 'สร้างคำขอ', desc: 'กรอกข้อมูลผู้ป่วย หมู่เลือด และโรงพยาบาล' },
+            { step: 3, title: 'ตรวจสอบคำขอ', desc: 'เจ้าหน้าที่ รพ. ตรวจสอบความถูกต้อง' },
+            { step: 4, title: 'ค้นหาผู้บริจาค', desc: 'ระบบจับคู่หมู่เลือด + พื้นที่ + ความพร้อม' },
+            { step: 5, title: 'แจ้งเตือน', desc: 'ส่งแจ้งเตือนไปยังผู้บริจาคที่เหมาะสม' },
+            { step: 6, title: 'ผู้บริจาคตอบรับ', desc: 'ผู้บริจาคยืนยันความพร้อมเดินทาง' },
+            { step: 7, title: 'โรงพยาบาลตรวจสอบ', desc: 'ตรวจคัดกรองสุขภาพ ณ โรงพยาบาล' },
+            { step: 8, title: 'อัปเดตสถานะ', desc: 'การบริจาคเสร็จสมบูรณ์ ปิดเคสสำเร็จ' }
+        ];
+
+        // Blood Compatibility Matrix (Recipient -> Compatible Donors)
+        const COMPATIBILITY = {
+            'O-': ['O-'],
+            'O+': ['O-', 'O+'],
+            'A-': ['O-', 'A-'],
+            'A+': ['O-', 'O+', 'A-', 'A+'],
+            'B-': ['O-', 'B-'],
+            'B+': ['O-', 'O+', 'B-', 'B+'],
+            'AB-': ['O-', 'A-', 'B-', 'AB-'],
+            'AB+': ['O-', 'O+', 'A-', 'A+', 'B-', 'B+', 'AB-', 'AB+']
+        };
+
+        const INITIAL_DONORS = [
+            { id: 'D-01', name: 'คุณกิตติพงศ์ ใจดี (คุณ)', bloodType: 'O-', distance: 1.8, status: 'ready', lastDonation: '120 วันที่แล้ว', totalDonations: 9, phone: '081-234-5678', hospitalPref: 'โรงพยาบาลรามาธิบดี' },
+            { id: 'D-02', name: 'คุณศิริพร รักษ์ไทย', bloodType: 'O+', distance: 2.4, status: 'ready', lastDonation: '150 วันที่แล้ว', totalDonations: 5, phone: '089-876-5432', hospitalPref: 'โรงพยาบาลศิริราช' },
+            { id: 'D-03', name: 'คุณธนากร มั่นคง', bloodType: 'A+', distance: 3.1, status: 'ready', lastDonation: '98 วันที่แล้ว', totalDonations: 12, phone: '086-555-1234', hospitalPref: 'โรงพยาบาลจุฬาลงกรณ์' },
+            { id: 'D-04', name: 'คุณนภาพร สุขสันต์', bloodType: 'B+', distance: 4.5, status: 'ready', lastDonation: '210 วันที่แล้ว', totalDonations: 3, phone: '082-333-4444', hospitalPref: 'โรงพยาบาลธรรมศาสตร์เฉลิมพระเกียรติ' },
+            { id: 'D-05', name: 'คุณวรพล แสงทอง', bloodType: 'AB+', distance: 5.2, status: 'not_ready', lastDonation: '45 วันที่แล้ว', totalDonations: 7, phone: '085-999-8888', hospitalPref: 'โรงพยาบาลพระมงกุฎเกล้า' }
+        ];
+
+        const INITIAL_REQUESTS = [
+            {
+                id: 'REQ-2026-001',
+                patientName: 'นายสมชาย วัฒนากูล',
+                bloodType: 'O-',
+                units: 2,
+                hospital: 'โรงพยาบาลรามาธิบดี',
+                urgency: 'ฉุกเฉินมาก (ภายใน 6 ชม.)',
+                status: 'verified', // pending | verified | accepted | completed | cancelled
+                currentStep: 5, // 1 to 8
+                createdAt: 'วันนี้, 14:20 น.',
+                requesterName: 'คุณวิภาดา วัฒนากูล (ญาติ)',
+                notes: 'ผู้ป่วยผ่าตัดหัวใจเร่งด่วน ต้องการเกล็ดเลือดและเม็ดเลือดแดงหมู่ O-',
+                matchedDonorCount: 3,
+                acceptedDonor: null
+            },
+            {
+                id: 'REQ-2026-002',
+                patientName: 'ด.ญ.ปาลิดา ศรีสุข',
+                bloodType: 'A+',
+                units: 1,
+                hospital: 'โรงพยาบาลศิริราช',
+                urgency: 'ด่วน (ภายใน 24 ชม.)',
+                status: 'pending',
+                currentStep: 3,
+                createdAt: 'วันนี้, 16:05 น.',
+                requesterName: 'คุณมานพ ศรีสุข',
+                notes: 'ผู้ป่วยโรคธาลัสซีเมีย นัดรับเลือดตามรอบการรักษา',
+                matchedDonorCount: 0,
+                acceptedDonor: null
+            },
+            {
+                id: 'REQ-2026-003',
+                patientName: 'นางสาวอัญชลี พงศ์ไพบูลย์',
+                bloodType: 'O+',
+                units: 2,
+                hospital: 'โรงพยาบาลจุฬาลงกรณ์',
+                urgency: 'ฉุกเฉินมาก (ภายใน 6 ชม.)',
+                status: 'accepted',
+                currentStep: 7,
+                createdAt: 'เมื่อวาน, 19:30 น.',
+                requesterName: 'คุณกมล พงศ์ไพบูลย์',
+                notes: 'อุบัติเหตุทางรถยนต์ เสียเลือดมาก',
+                matchedDonorCount: 4,
+                acceptedDonor: { id: 'D-02', name: 'คุณศิริพร รักษ์ไทย', bloodType: 'O+', distance: 2.4, arrived: true }
+            },
+            {
+                id: 'REQ-2026-004',
+                patientName: 'นายประเสริฐ เจริญกิจ',
+                bloodType: 'B+',
+                units: 1,
+                hospital: 'โรงพยาบาลธรรมศาสตร์เฉลิมพระเกียรติ',
+                urgency: 'ปกติ (นัดล่วงหน้า)',
+                status: 'completed',
+                currentStep: 8,
+                createdAt: '10 พ.ย. 2026',
+                requesterName: 'คุณสมหญิง เจริญกิจ',
+                notes: 'ผ่าตัดเปลี่ยนข้อเข่า',
+                matchedDonorCount: 2,
+                acceptedDonor: { id: 'D-04', name: 'คุณนภาพร สุขสันต์', bloodType: 'B+', distance: 4.5, arrived: true }
+            }
+        ];
+
+        const INITIAL_NOTIFICATIONS = [
+            {
+                id: 'NOTIF-1',
+                reqId: 'REQ-2026-001',
+                title: 'พบคำขอเลือดฉุกเฉินตรงกับหมู่เลือด O- ของคุณ!',
+                message: 'นายสมชาย วัฒนากูล ต้องการเลือดหมู่ O- จำนวน 2 ยูนิต ณ โรงพยาบาลรามาธิบดี (ห่างจากคุณ 1.8 กม.)',
+                time: '15 นาทีที่แล้ว',
+                read: false,
+                type: 'urgent'
+            },
+            {
+                id: 'NOTIF-2',
+                reqId: null,
+                title: 'ครบกำหนดระยะพักฟื้น 90 วันแล้ว',
+                message: 'ร่างกายของคุณพร้อมสำหรับการบริจาคโลหิตครั้งถัดไป สถานะของคุณถูกตั้งเป็น "พร้อมบริจาค"',
+                time: '2 วันที่แล้ว',
+                read: true,
+                type: 'info'
+            }
+        ];
+
+        const INITIAL_HISTORY = [
+            { date: '15 ก.ค. 2026', hospital: 'ศูนย์บริการโลหิตแห่งชาติ สภากาชาดไทย', units: 1, reqId: 'บริจาคทั่วไป', status: 'เสร็จสมบูรณ์' },
+            { date: '02 เม.ย. 2026', hospital: 'โรงพยาบาลรามาธิบดี', units: 1, reqId: 'REQ-2026-089', status: 'เสร็จสมบูรณ์' },
+            { date: '10 ม.ค. 2026', hospital: 'โรงพยาบาลศิริราช', units: 1, reqId: 'REQ-2025-412', status: 'เสร็จสมบูรณ์' }
+        ];
+
+        // App State
+        let state = {
+            isAuthenticated: false,
+            selectedLoginRole: 'requester',
+            currentUser: { name: 'คุณวิภาดา วัฒนากูล', roleLabel: 'Requester' },
+            currentRole: 'requester', // requester | donor | staff | architecture
+            currentTab: 'home',
+            requests: JSON.parse(JSON.stringify(INITIAL_REQUESTS)),
+            donors: JSON.parse(JSON.stringify(INITIAL_DONORS)),
+            notifications: JSON.parse(JSON.stringify(INITIAL_NOTIFICATIONS)),
+            donationHistory: JSON.parse(JSON.stringify(INITIAL_HISTORY)),
+            selectedRequestIdForMatching: 'REQ-2026-001'
+        };
+
+        // Role Tab Definitions (Matching Slide 14: UI Prototype)
+        const ROLE_TABS = {
+            requester: [
+                { id: 'home', label: 'Home', icon: 'fa-house' },
+                { id: 'create', label: 'Create Request', icon: 'fa-circle-plus' },
+                { id: 'matching', label: 'Matching Result', icon: 'fa-users-viewfinder' },
+                { id: 'status', label: 'Request Status', icon: 'fa-list-check' }
+            ],
+            donor: [
+                { id: 'home', label: 'Home', icon: 'fa-house-medical' },
+                { id: 'requests', label: 'Blood Request', icon: 'fa-droplet' },
+                { id: 'notification', label: 'Notification', icon: 'fa-bell' },
+                { id: 'history', label: 'Donation History & Profile', icon: 'fa-id-card' }
+            ],
+            staff: [
+                { id: 'dashboard', label: 'Dashboard', icon: 'fa-chart-pie' },
+                { id: 'verification', label: 'Request Verification', icon: 'fa-clipboard-check' },
+                { id: 'donation_status', label: 'Donation Status', icon: 'fa-hospital-user' }
+            ],
+            architecture: [
+                { id: 'process', label: 'Business Process (8 Steps)', icon: 'fa-arrow-right-long' },
+                { id: 'design', label: 'UI Design System & Architecture', icon: 'fa-palette' }
+            ]
+        };
+
+        // ==========================================
+        // 2. AUTHENTICATION & CORE NAVIGATION
+        // ==========================================
+        const DEMO_ACCOUNTS = {
+            requester: {
+                username: 'wipada.requester@bloodmatch.th',
+                displayName: 'คุณวิภาดา วัฒนากูล',
+                roleLabel: 'Requester (ผู้ขอรับเลือด)'
+            },
+            donor: {
+                username: 'kittipong.donor@bloodmatch.th',
+                displayName: 'คุณกิตติพงศ์ ใจดี (O-)',
+                roleLabel: 'Donor (ผู้บริจาค)'
+            },
+            staff: {
+                username: 'staff.ramathibodi@bloodmatch.th',
+                displayName: 'พว.สุภาพร (รพ.รามาธิบดี)',
+                roleLabel: 'Hospital Staff'
+            }
+        };
+
+        function selectLoginRole(role) {
+            state.selectedLoginRole = role;
+            const acc = DEMO_ACCOUNTS[role];
+            const usernameInput = document.getElementById('login-username');
+            const hint = document.getElementById('login-role-hint');
+
+            if (usernameInput) usernameInput.value = acc.username;
+            if (hint) hint.textContent = `บัญชีทดสอบ: ${acc.displayName}`;
+
+            // Update card styles matching Slide 14 palette
+            const cardConfigs = {
+                requester: { active: 'border-bloodRed bg-bloodRed-light/60 shadow-sm', inactive: 'border-slate-200 bg-white hover:bg-bloodRed-light/20' },
+                donor: { active: 'border-medicalNavy bg-softBlue-light/70 shadow-sm', inactive: 'border-slate-200 bg-white hover:bg-softBlue-light/20' },
+                staff: { active: 'border-successGreen bg-successGreen-light/70 shadow-sm', inactive: 'border-slate-200 bg-white hover:bg-successGreen-light/20' }
+            };
+
+            ['requester', 'donor', 'staff'].forEach(r => {
+                const card = document.getElementById(`login-role-card-${r}`);
+                if (!card) return;
+                const styleClass = r === role ? cardConfigs[r].active : cardConfigs[r].inactive;
+                card.className = `p-3.5 rounded-2xl border-2 text-left transition-all flex sm:flex-col items-center sm:items-start gap-3 sm:gap-2 ${styleClass}`;
+            });
+        }
+
+        function togglePasswordVisibility() {
+            const pwd = document.getElementById('login-password');
+            const icon = document.getElementById('password-eye-icon');
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                pwd.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            completeLogin(state.selectedLoginRole);
+        }
+
+        function quickDemoLogin(role) {
+            selectLoginRole(role);
+            completeLogin(role);
+        }
+
+        function enterGuestArchitecture() {
+            state.isAuthenticated = true;
+            state.currentUser = { name: 'ผู้เยี่ยมชมระบบ', roleLabel: 'System Overview' };
+            state.currentRole = 'architecture';
+            state.currentTab = 'process';
+            updateAuthVisibility();
+            renderApp();
+        }
+
+        function completeLogin(role) {
+            const acc = DEMO_ACCOUNTS[role];
+            state.isAuthenticated = true;
+            state.currentUser = { name: acc.displayName, roleLabel: acc.roleLabel };
+            state.currentRole = role;
+            state.currentTab = ROLE_TABS[role][0].id;
+            updateAuthVisibility();
+            showToast(`ยินดีต้อนรับ ${acc.displayName} เข้าสู่ระบบ Blood Donor Match`, 'success');
+            renderApp();
+        }
+
+        function logoutUser() {
+            state.isAuthenticated = false;
+            updateAuthVisibility();
+            selectLoginRole(state.selectedLoginRole);
+            showToast('ออกจากระบบเรียบร้อยแล้ว', 'info');
+        }
+
+        function updateAuthVisibility() {
+            const loginScreen = document.getElementById('login-screen');
+            const appShell = document.getElementById('main-app-shell');
+
+            if (state.isAuthenticated) {
+                loginScreen.classList.add('hidden');
+                appShell.classList.remove('hidden');
+                appShell.classList.add('flex');
+            } else {
+                loginScreen.classList.remove('hidden');
+                appShell.classList.add('hidden');
+                appShell.classList.remove('flex');
+            }
+        }
+
+        function switchRole(role, tab = null) {
+            state.currentRole = role;
+            state.currentTab = tab || ROLE_TABS[role][0].id;
+            if (DEMO_ACCOUNTS[role]) {
+                state.currentUser = {
+                    name: DEMO_ACCOUNTS[role].displayName,
+                    roleLabel: DEMO_ACCOUNTS[role].roleLabel
+                };
+            }
+            renderApp();
+        }
+
+        function resetDemoData() {
+            state.requests = JSON.parse(JSON.stringify(INITIAL_REQUESTS));
+            state.donors = JSON.parse(JSON.stringify(INITIAL_DONORS));
+            state.notifications = JSON.parse(JSON.stringify(INITIAL_NOTIFICATIONS));
+            state.donationHistory = JSON.parse(JSON.stringify(INITIAL_HISTORY));
+            state.selectedRequestIdForMatching = 'REQ-2026-001';
+            showToast('รีเซ็ตข้อมูลตัวอย่างเรียบร้อยแล้ว', 'info');
+            renderApp();
+        }
+
+        // Custom Toast Message Box (Never use alert())
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const styles = {
+                success: 'bg-successGreen text-white border-successGreen',
+                error: 'bg-bloodRed text-white border-bloodRed',
+                info: 'bg-medicalNavy text-white border-medicalNavy',
+                warning: 'bg-amber-500 text-white border-amber-500'
+            };
+            const icons = {
+                success: 'fa-circle-check',
+                error: 'fa-circle-exclamation',
+                info: 'fa-circle-info',
+                warning: 'fa-triangle-exclamation'
+            };
+
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3.5 rounded-2xl shadow-xl border ${styles[type] || styles.info} transform transition-all duration-300 translate-y-2 opacity-0`;
+            toast.innerHTML = `
+                <i class="fa-solid ${icons[type] || icons.info} text-lg shrink-0"></i>
+                <p class="text-sm font-medium leading-snug">${message}</p>
+            `;
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3800);
+        }
+
+        // Slide-Accurate Status Badge Renderer
+        function renderStatusBadge(status) {
+            switch (status) {
+                case 'pending':
+                    return `<span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold bg-[#FEF3C7] text-[#B45309] border border-amber-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> รอการตรวจสอบ
+                    </span>`;
+                case 'verified':
+                    return `<span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold bg-[#DBEAFE] text-[#1D4ED8] border border-blue-200">
+                        <i class="fa-solid fa-check-circle text-[11px]"></i> ยืนยันแล้ว (กำลังหาผู้บริจาค)
+                    </span>`;
+                case 'accepted':
+                    return `<span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold bg-[#E8F5E9] text-[#2E8B57] border border-emerald-200">
+                        <i class="fa-solid fa-heart text-[11px]"></i> ผู้บริจาคตอบรับแล้ว
+                    </span>`;
+                case 'completed':
+                    return `<span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold bg-successGreen text-white shadow-sm">
+                        <i class="fa-solid fa-circle-check text-[11px]"></i> บริจาคสำเร็จ (ยืนยันแล้ว)
+                    </span>`;
+                case 'cancelled':
+                    return `<span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold bg-[#FEE2E2] text-[#D32F2F] border border-red-200">
+                        <i class="fa-solid fa-xmark text-[11px]"></i> ยกเลิก
+                    </span>`;
+                default:
+                    return '';
+            }
+        }
+
+        // ==========================================
+        // 3. RENDER NAVIGATION & BADGES
+        // ==========================================
+        function updateNavUI() {
+            // Update Active User Badge
+            const userBadge = document.getElementById('active-user-badge');
+            if (userBadge && state.currentUser) {
+                userBadge.innerHTML = `<i class="fa-solid fa-circle-user text-bloodRed mr-1"></i>${state.currentUser.name}`;
+            }
+
+            // Update Role Tabs
+            const roles = ['requester', 'donor', 'staff', 'architecture'];
+            const roleColors = {
+                requester: 'bg-bloodRed text-white shadow-md shadow-bloodRed/20',
+                donor: 'bg-medicalNavy text-white shadow-md shadow-medicalNavy/20',
+                staff: 'bg-successGreen text-white shadow-md shadow-successGreen/20',
+                architecture: 'bg-slate-800 text-white shadow-md'
+            };
+
+            roles.forEach(r => {
+                const btn = document.getElementById(`role-btn-${r}`);
+                if (r === state.currentRole) {
+                    btn.className = `role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${roleColors[r]}`;
+                } else {
+                    btn.className = `role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium text-slate-600 hover:bg-white hover:text-medicalNavy transition-all`;
+                }
+            });
+
+            // Update Badges
+            const pendingCount = state.requests.filter(r => r.status === 'pending').length;
+            const staffBadge = document.getElementById('staff-pending-badge');
+            if (pendingCount > 0) {
+                staffBadge.textContent = pendingCount;
+                staffBadge.classList.remove('hidden');
+            } else {
+                staffBadge.classList.add('hidden');
+            }
+
+            const unreadNotifs = state.notifications.filter(n => !n.read).length;
+            const donorDot = document.getElementById('donor-notif-dot');
+            const mobileDot = document.getElementById('mobile-notif-badge');
+            if (unreadNotifs > 0) {
+                donorDot.classList.remove('hidden');
+                mobileDot.classList.remove('hidden');
+            } else {
+                donorDot.classList.add('hidden');
+                mobileDot.classList.add('hidden');
+            }
+
+            // Update Sub-navigation Tabs
+            const subNav = document.getElementById('sub-nav-container');
+            const tabs = ROLE_TABS[state.currentRole];
+            subNav.innerHTML = tabs.map(t => {
+                const isActive = t.id === state.currentTab;
+                const notifCount = (state.currentRole === 'donor' && t.id === 'notification') ? unreadNotifs : 0;
+                return `
+                    <button onclick="switchTab('${t.id}')"
+                        class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                            isActive 
+                            ? 'bg-medicalNavy text-white shadow-sm' 
+                            : 'bg-slate-100/80 text-slate-600 hover:bg-slate-200/70 hover:text-medicalNavy'
+                        }">
+                        <i class="fa-solid ${t.icon} text-xs"></i>
+                        <span>${t.label}</span>
+                        ${notifCount > 0 ? `<span class="px-1.5 py-0.2 text-[10px] font-bold rounded-full bg-bloodRed text-white">${notifCount}</span>` : ''}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        // ==========================================
+        // 4. REQUESTER VIEWS (ผู้ขอรับเลือด)
+        // ==========================================
+        function renderRequesterView() {
+            if (state.currentTab === 'home') return renderRequesterHome();
+            if (state.currentTab === 'create') return renderRequesterCreate();
+            if (state.currentTab === 'matching') return renderRequesterMatching();
+            if (state.currentTab === 'status') return renderRequesterStatus();
+        }
+
+        function renderRequesterHome() {
+            const activeReqs = state.requests.filter(r => r.status !== 'completed' && r.status !== 'cancelled');
+            const readyDonorsCount = state.donors.filter(d => d.status === 'ready').length;
+
+            return `
+                <div class="space-y-6">
+                    <!-- Hero Banner -->
+                    <div class="bg-gradient-to-r from-medicalNavy via-medicalNavy-light to-bloodRed-dark rounded-3xl p-6 sm:p-8 text-white shadow-lg relative overflow-hidden">
+                        <div class="relative z-10 max-w-2xl">
+                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-softBlue text-xs font-medium mb-3">
+                                <i class="fa-solid fa-heart-pulse"></i> Requester Portal • ระบบขอรับบริจาคโลหิต
+                            </span>
+                            <h2 class="text-2xl sm:text-3xl font-bold mb-2 leading-tight">ค้นหาผู้บริจาคโลหิตที่พร้อมช่วยเหลือใกล้คุณ</h2>
+                            <p class="text-slate-200 text-sm sm:text-base mb-6">
+                                สร้างคำขอรับบริจาคโลหิตผ่านระบบตรวจสอบมาตรฐานโรงพยาบาล พร้อมจับคู่ผู้บริจาคตามหมู่เลือดและระยะทางแบบเรียลไทม์
+                            </p>
+                            <div class="flex flex-wrap items-center gap-3">
+                                <!-- Primary CTA matching slide button 'สร้างคำขอเลือด' -->
+                                <button onclick="switchTab('create')" class="pill-btn px-6 py-3 rounded-full bg-bloodRed hover:bg-bloodRed-dark text-white font-semibold text-sm sm:text-base shadow-lg shadow-black/20 flex items-center gap-2">
+                                    <i class="fa-solid fa-plus-circle"></i>
+                                    <span>สร้างคำขอเลือด</span>
+                                </button>
+                                <!-- Secondary CTA matching slide button 'ดูรายละเอียด' -->
+                                <button onclick="switchTab('status')" class="pill-btn px-6 py-3 rounded-full bg-softBlue hover:bg-white text-medicalNavy font-semibold text-sm sm:text-base shadow-md flex items-center gap-2">
+                                    <i class="fa-solid fa-list-check"></i>
+                                    <span>ติดตามสถานะคำขอ (${activeReqs.length})</span>
+                                </button>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-hand-holding-droplet text-[160px] text-white/5 absolute -right-4 -bottom-6 pointer-events-none"></i>
+                    </div>
+
+                    <!-- Quick Stats Row -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-bloodRed-light text-bloodRed flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-file-medical"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500">คำขอที่กำลังดำเนินการ</p>
+                                <p class="text-2xl font-bold text-medicalNavy">${activeReqs.length} <span class="text-sm font-normal text-slate-500">รายการ</span></p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-successGreen-light text-successGreen flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-user-check"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500">ผู้บริจาคสถานะ "พร้อมบริจาค"</p>
+                                <p class="text-2xl font-bold text-successGreen">${readyDonorsCount} <span class="text-sm font-normal text-slate-500">คนในพื้นที่</span></p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-softBlue-light text-medicalNavy flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500">Location API รัศมีการค้นหา</p>
+                                <p class="text-2xl font-bold text-medicalNavy">10 <span class="text-sm font-normal text-slate-500">กม. รอบโรงพยาบาล</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Requests List -->
+                    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-bold text-medicalNavy flex items-center gap-2">
+                                <span class="w-1.5 h-5 bg-bloodRed rounded-full"></span>
+                                คำขอโลหิตล่าสุดของคุณ
+                            </h3>
+                            <button onclick="switchTab('status')" class="text-sm font-medium text-bloodRed hover:underline">ดูทั้งหมด →</button>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${state.requests.slice(0, 4).map(req => `
+                                <div class="p-4 rounded-2xl border border-slate-200 hover:border-bloodRed/40 transition bg-slate-50/50 flex flex-col justify-between gap-3">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-12 h-12 rounded-2xl bg-bloodRed text-white font-bold text-lg flex items-center justify-center shadow-sm shrink-0">
+                                                ${req.bloodType}
+                                            </div>
+                                            <div>
+                                                <span class="text-[11px] font-medium text-slate-400">${req.id} • ${req.createdAt}</span>
+                                                <h4 class="font-bold text-medicalNavy text-base">${req.patientName}</h4>
+                                                <p class="text-xs text-slate-600"><i class="fa-solid fa-hospital text-slate-400 mr-1"></i>${req.hospital} (${req.units} ยูนิต)</p>
+                                            </div>
+                                        </div>
+                                        ${renderStatusBadge(req.status)}
+                                    </div>
+                                    <div class="flex items-center justify-between pt-2 border-t border-slate-200/70">
+                                        <span class="text-xs font-medium text-slate-500">ขั้นตอนที่ ${req.currentStep}/8: <strong class="text-medicalNavy">${PROCESS_STEPS[req.currentStep - 1].title}</strong></span>
+                                        <div class="flex items-center gap-2">
+                                            ${req.status === 'verified' || req.status === 'accepted' ? `
+                                                <button onclick="openMatchingFor('${req.id}')" class="px-3 py-1 rounded-full text-xs font-semibold bg-successGreen-light text-successGreen hover:bg-successGreen hover:text-white transition">
+                                                    ผลจับคู่ (${req.matchedDonorCount})
+                                                </button>
+                                            ` : ''}
+                                            <button onclick="openRequestModal('${req.id}')" class="px-3.5 py-1 rounded-full text-xs font-semibold bg-softBlue text-medicalNavy hover:brightness-95 transition">
+                                                ดูรายละเอียด
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRequesterCreate() {
+            return `
+                <div class="max-w-3xl mx-auto bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="bg-medicalNavy px-6 py-5 text-white flex items-center justify-between">
+                        <div>
+                            <h2 class="text-xl font-bold flex items-center gap-2">
+                                <i class="fa-solid fa-file-circle-plus text-softBlue"></i>
+                                สร้างคำขอเลือด (Create Request)
+                            </h2>
+                            <p class="text-xs text-slate-300 mt-0.5">ขั้นตอนที่ 2 ของกระบวนการ: กรอกข้อมูลผู้ป่วยเพื่อส่งให้เจ้าหน้าที่โรงพยาบาลตรวจสอบ</p>
+                        </div>
+                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-400/20 text-amber-200 border border-amber-400/30">
+                            สถานะเริ่มต้น: รอการตรวจสอบ
+                        </span>
+                    </div>
+
+                    <form onsubmit="handleCreateRequest(event)" class="p-6 sm:p-8 space-y-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-semibold text-medicalNavy mb-1.5">ชื่อ-นามสกุล ผู้ป่วย <span class="text-bloodRed">*</span></label>
+                                <input type="text" id="req-patient-name" required placeholder="เช่น นายอนันต์ สุขเจริญ"
+                                    class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-bloodRed focus:border-bloodRed outline-none text-sm">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-medicalNavy mb-1.5">ชื่อผู้ติดต่อ / ญาติ <span class="text-bloodRed">*</span></label>
+                                <input type="text" id="req-contact-name" required value="คุณปิยะดา (ญาติผู้ป่วย)"
+                                    class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-bloodRed focus:border-bloodRed outline-none text-sm">
+                            </div>
+                        </div>
+
+                        <!-- Blood Type Selector -->
+                        <div>
+                            <label class="block text-sm font-semibold text-medicalNavy mb-2">หมู่เลือดที่ต้องการ <span class="text-bloodRed">*</span></label>
+                            <div class="grid grid-cols-4 sm:grid-cols-8 gap-2">
+                                ${['O-', 'O+', 'A-', 'A+', 'B-', 'B+', 'AB-', 'AB+'].map((bt, idx) => `
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="bloodType" value="${bt}" ${idx === 0 ? 'checked' : ''} class="peer sr-only">
+                                        <div class="py-2.5 text-center rounded-xl border-2 border-slate-200 font-bold text-medicalNavy peer-checked:border-bloodRed peer-checked:bg-bloodRed peer-checked:text-white transition">
+                                            ${bt}
+                                        </div>
+                                    </label>
+                                `).join('')}
+                            </div>
+                            <p class="text-[11px] text-slate-500 mt-1.5"><i class="fa-solid fa-circle-info text-softBlue-text mr-1"></i>แนะนำ: เลือก <strong>O-</strong> หรือ <strong>A+</strong> เพื่อทดสอบจับคู่กับผู้บริจาคในระบบ</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                            <div>
+                                <label class="block text-sm font-semibold text-medicalNavy mb-1.5">จำนวนโลหิต (ยูนิต) <span class="text-bloodRed">*</span></label>
+                                <input type="number" id="req-units" min="1" max="10" value="2" required
+                                    class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-bloodRed focus:border-bloodRed outline-none text-sm">
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm font-semibold text-medicalNavy mb-1.5">โรงพยาบาลที่รักษา <span class="text-bloodRed">*</span></label>
+                                <select id="req-hospital" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-bloodRed focus:border-bloodRed outline-none text-sm bg-white">
+                                    <option value="โรงพยาบาลรามาธิบดี">โรงพยาบาลรามาธิบดี</option>
+                                    <option value="โรงพยาบาลศิริราช">โรงพยาบาลศิริราช</option>
+                                    <option value="โรงพยาบาลจุฬาลงกรณ์">โรงพยาบาลจุฬาลงกรณ์</option>
+                                    <option value="โรงพยาบาลธรรมศาสตร์เฉลิมพระเกียรติ">โรงพยาบาลธรรมศาสตร์เฉลิมพระเกียรติ</option>
+                                    <option value="โรงพยาบาลพระมงกุฎเกล้า">โรงพยาบาลพระมงกุฎเกล้า</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-medicalNavy mb-1.5">ระดับความเร่งด่วน</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="urgency" value="ฉุกเฉินมาก (ภายใน 6 ชม.)" checked class="peer sr-only">
+                                    <div class="p-3 rounded-xl border border-slate-200 text-xs font-semibold text-center peer-checked:bg-bloodRed-light peer-checked:border-bloodRed peer-checked:text-bloodRed transition">
+                                        🚨 ฉุกเฉินมาก (ภายใน 6 ชม.)
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="urgency" value="ด่วน (ภายใน 24 ชม.)" class="peer sr-only">
+                                    <div class="p-3 rounded-xl border border-slate-200 text-xs font-semibold text-center peer-checked:bg-amber-50 peer-checked:border-amber-500 peer-checked:text-amber-700 transition">
+                                        ⚡ ด่วน (ภายใน 24 ชม.)
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="urgency" value="ปกติ (นัดล่วงหน้า)" class="peer sr-only">
+                                    <div class="p-3 rounded-xl border border-slate-200 text-xs font-semibold text-center peer-checked:bg-softBlue-light peer-checked:border-medicalNavy peer-checked:text-medicalNavy transition">
+                                        📅 ปกติ (นัดล่วงหน้า)
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-medicalNavy mb-1.5">รายละเอียดเพิ่มเติม / สาเหตุการขอรับเลือด</label>
+                            <textarea id="req-notes" rows="3" placeholder="ระบุอาการป่วย หอผู้ป่วย หรือเลขที่ HN (ถ้ามี)..."
+                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-bloodRed focus:border-bloodRed outline-none text-sm">ผู้ป่วยเตรียมเข้ารับการผ่าตัดด่วน ต้องการโลหิตสำรอง</textarea>
+                        </div>
+
+                        <div class="pt-3 flex flex-wrap items-center justify-end gap-3 border-t border-slate-100">
+                            <button type="button" onclick="switchTab('home')" class="px-5 py-2.5 rounded-full text-sm font-medium text-slate-600 hover:bg-slate-100 transition">
+                                ยกเลิก
+                            </button>
+                            <button type="submit" class="pill-btn px-7 py-3 rounded-full bg-bloodRed hover:bg-bloodRed-dark text-white font-semibold text-sm shadow-md flex items-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>ส่งคำขอเลือด</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+        }
+
+        function handleCreateRequest(e) {
+            e.preventDefault();
+            const patientName = document.getElementById('req-patient-name').value.trim();
+            const requesterName = document.getElementById('req-contact-name').value.trim();
+            const bloodType = document.querySelector('input[name="bloodType"]:checked').value;
+            const units = parseInt(document.getElementById('req-units').value, 10);
+            const hospital = document.getElementById('req-hospital').value;
+            const urgency = document.querySelector('input[name="urgency"]:checked').value;
+            const notes = document.getElementById('req-notes').value.trim();
+
+            const newReq = {
+                id: `REQ-2026-00${state.requests.length + 1}`,
+                patientName,
+                bloodType,
+                units,
+                hospital,
+                urgency,
+                status: 'pending',
+                currentStep: 3, // Moves to Step 3: ตรวจสอบคำขอ
+                createdAt: 'เมื่อสักครู่',
+                requesterName,
+                notes: notes || '-',
+                matchedDonorCount: 0,
+                acceptedDonor: null
+            };
+
+            state.requests.unshift(newReq);
+            state.selectedRequestIdForMatching = newReq.id;
+            showToast(`สร้างคำขอเลือด ${newReq.id} สำเร็จ! สถานะ: รอการตรวจสอบจากโรงพยาบาล`, 'success');
+            switchTab('status');
+        }
+
+        function openMatchingFor(reqId) {
+            state.selectedRequestIdForMatching = reqId;
+            switchTab('matching');
+        }
+
+        function renderRequesterMatching() {
+            const req = state.requests.find(r => r.id === state.selectedRequestIdForMatching) || state.requests[0];
+            const compatibleTypes = COMPATIBILITY[req.bloodType] || [req.bloodType];
+            const matchedDonors = state.donors
+                .filter(d => compatibleTypes.includes(d.bloodType))
+                .sort((a, b) => a.distance - b.distance);
+
+            return `
+                <div class="space-y-6">
+                    <!-- Request Selector & Location API Header -->
+                    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-softBlue text-medicalNavy">Matching Engine</span>
+                                <span class="text-xs text-slate-500">หมู่เลือด + พื้นที่ + ความพร้อม</span>
+                            </div>
+                            <h2 class="text-xl font-bold text-medicalNavy">ผลการจับคู่ผู้บริจาค (Matching Result)</h2>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-3">
+                            <label class="text-xs font-semibold text-slate-500">เลือกคำขอ:</label>
+                            <select onchange="openMatchingFor(this.value)" class="px-4 py-2 rounded-full border border-slate-300 text-sm font-semibold text-medicalNavy bg-slate-50 outline-none">
+                                ${state.requests.map(r => `
+                                    <option value="${r.id}" ${r.id === req.id ? 'selected' : ''}>
+                                        ${r.id} — ${r.patientName} (หมู่ ${r.bloodType})
+                                    </option>
+                                `).join('')}
+                            </select>
+                        </div>
+                    </div>
+
+                    ${req.status === 'pending' ? `
+                        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-clock text-amber-500 text-2xl"></i>
+                                <div>
+                                    <h4 class="font-bold text-amber-900">คำขอนี้ยังอยู่ในสถานะ "รอการตรวจสอบ"</h4>
+                                    <p class="text-xs text-amber-700">ระบบจะส่งแจ้งเตือนไปยังผู้บริจาคอัตโนมัติหลังจากเจ้าหน้าที่โรงพยาบาลยืนยันคำขอ (ขั้นตอนที่ 3 → 4)</p>
+                                </div>
+                            </div>
+                            <button onclick="switchRole('staff', 'verification')" class="shrink-0 px-4 py-2 rounded-full bg-successGreen text-white text-xs font-semibold shadow-sm hover:brightness-95">
+                                ไปหน้าเจ้าหน้าที่ รพ. เพื่อยืนยัน →
+                            </button>
+                        </div>
+                    ` : ''}
+
+                    <!-- Location API Distance Visualizer & Donor Cards -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Left: Location Radar Simulation -->
+                        <div class="bg-medicalNavy text-white rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-xs font-semibold px-3 py-1 rounded-full bg-successGreen text-white">
+                                        <i class="fa-solid fa-satellite-dish mr-1"></i> Location API Active
+                                    </span>
+                                    <span class="text-xs text-softBlue">รัศมี 10 กม.</span>
+                                </div>
+                                <h3 class="text-lg font-bold mb-1">${req.hospital}</h3>
+                                <p class="text-xs text-slate-300 mb-6">ต้องการเลือดหมู่ <strong class="text-softBlue text-sm">${req.bloodType}</strong> (รับได้จาก: ${compatibleTypes.join(', ')})</p>
+                                
+                                <!-- Visual Radar Rings -->
+                                <div class="relative w-48 h-48 mx-auto my-4 flex items-center justify-center">
+                                    <div class="absolute inset-0 rounded-full border border-softBlue/20 animate-ping" style="animation-duration: 3s;"></div>
+                                    <div class="absolute inset-4 rounded-full border border-softBlue/30"></div>
+                                    <div class="absolute inset-10 rounded-full border border-softBlue/40"></div>
+                                    <div class="w-12 h-12 rounded-full bg-bloodRed flex items-center justify-center shadow-lg z-10 border-2 border-white">
+                                        <i class="fa-solid fa-hospital text-white"></i>
+                                    </div>
+                                    <!-- Donor dots -->
+                                    <span class="absolute top-6 right-8 px-2 py-0.5 rounded-full bg-successGreen text-[10px] font-bold shadow">1.8 กม.</span>
+                                    <span class="absolute bottom-8 left-6 px-2 py-0.5 rounded-full bg-successGreen text-[10px] font-bold shadow">2.4 กม.</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-white/10 rounded-2xl p-3.5 text-xs space-y-1">
+                                <div class="flex justify-between">
+                                    <span class="text-slate-300">ผู้บริจาคที่เข้าเกณฑ์:</span>
+                                    <span class="font-bold text-softBlue">${matchedDonors.length} คน</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-300">สถานะพร้อมบริจาค:</span>
+                                    <span class="font-bold text-emerald-300">${matchedDonors.filter(d => d.status === 'ready').length} คน</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Matched Donors List -->
+                        <div class="lg:col-span-2 space-y-3">
+                            ${matchedDonors.map(donor => {
+                                const isAcceptedByThisDonor = req.acceptedDonor && req.acceptedDonor.id === donor.id;
+                                return `
+                                    <div class="bg-white rounded-2xl border ${isAcceptedByThisDonor ? 'border-successGreen ring-2 ring-successGreen/20' : 'border-slate-200'} p-4 sm:p-5 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                        <div class="flex items-center gap-4">
+                                            <div class="w-14 h-14 rounded-2xl bg-softBlue-light text-medicalNavy font-bold text-xl flex flex-col items-center justify-center shrink-0 border border-softBlue">
+                                                <span>${donor.bloodType}</span>
+                                                <span class="text-[9px] font-normal text-slate-500">หมู่เลือด</span>
+                                            </div>
+                                            <div>
+                                                <div class="flex flex-wrap items-center gap-2">
+                                                    <h4 class="font-bold text-medicalNavy">${donor.name}</h4>
+                                                    ${donor.status === 'ready' 
+                                                        ? `<span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-successGreen-light text-successGreen">พร้อมบริจาค</span>`
+                                                        : `<span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-500">พักฟื้น</span>`
+                                                    }
+                                                    ${isAcceptedByThisDonor ? `<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-successGreen text-white">ตอบรับคำขอนี้แล้ว!</span>` : ''}
+                                                </div>
+                                                <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500 mt-1">
+                                                    <span><i class="fa-solid fa-location-dot text-bloodRed mr-1"></i>ห่างจาก รพ. <strong>${donor.distance} กม.</strong></span>
+                                                    <span><i class="fa-solid fa-award text-amber-500 mr-1"></i>บริจาคแล้ว ${donor.totalDonations} ครั้ง</span>
+                                                    <span><i class="fa-solid fa-clock-rotate-left mr-1"></i>ล่าสุด ${donor.lastDonation}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center gap-2 self-end sm:self-center">
+                                            ${req.status !== 'pending' && donor.status === 'ready' ? `
+                                                <span class="text-xs font-medium text-successGreen bg-successGreen-light/60 px-3 py-1.5 rounded-full">
+                                                    <i class="fa-solid fa-bell mr-1"></i>แจ้งเตือนแล้ว
+                                                </span>
+                                            ` : ''}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRequesterStatus() {
+            return `
+                <div class="space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                            <h2 class="text-xl font-bold text-medicalNavy">ติดตามสถานะคำขอเลือด (Request Status)</h2>
+                            <p class="text-xs text-slate-500">แสดงความคืบหน้าตามกระบวนการทำงาน 8 ขั้นตอน (Business Process Diagram)</p>
+                        </div>
+                        <button onclick="switchTab('create')" class="pill-btn self-start sm:self-auto px-5 py-2.5 rounded-full bg-bloodRed text-white text-sm font-semibold shadow-sm flex items-center gap-2">
+                            <i class="fa-solid fa-plus"></i> สร้างคำขอเลือด
+                        </button>
+                    </div>
+
+                    <div class="space-y-5">
+                        ${state.requests.map(req => `
+                            <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-5">
+                                <!-- Top Header -->
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+                                    <div class="flex items-center gap-3.5">
+                                        <div class="w-12 h-12 rounded-2xl bg-bloodRed text-white font-bold text-lg flex items-center justify-center shrink-0">
+                                            ${req.bloodType}
+                                        </div>
+                                        <div>
+                                            <div class="flex flex-wrap items-center gap-2">
+                                                <span class="text-xs font-bold text-slate-400">${req.id}</span>
+                                                ${renderStatusBadge(req.status)}
+                                            </div>
+                                            <h3 class="text-lg font-bold text-medicalNavy mt-0.5">${req.patientName} <span class="text-sm font-normal text-slate-500">• ${req.hospital} (${req.units} ยูนิต)</span></h3>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center gap-2">
+                                        ${req.status === 'verified' || req.status === 'accepted' ? `
+                                            <button onclick="openMatchingFor('${req.id}')" class="px-4 py-2 rounded-full text-xs font-semibold bg-successGreen-light text-successGreen hover:bg-successGreen hover:text-white transition">
+                                                ดูผลจับคู่ผู้บริจาค
+                                            </button>
+                                        ` : ''}
+                                        <button onclick="openRequestModal('${req.id}')" class="px-4 py-2 rounded-full text-xs font-semibold bg-softBlue text-medicalNavy hover:brightness-95 transition">
+                                            ดูรายละเอียด
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- 8-Step Business Process Tracker -->
+                                ${req.status !== 'cancelled' ? `
+                                    <div class="overflow-x-auto pb-2">
+                                        <div class="min-w-[680px] grid grid-cols-8 gap-2">
+                                            ${PROCESS_STEPS.map(s => {
+                                                const isDone = s.step < req.currentStep || req.status === 'completed';
+                                                const isCurrent = s.step === req.currentStep && req.status !== 'completed';
+                                                return `
+                                                    <div class="flex flex-col items-center text-center relative">
+                                                        <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold mb-1.5 transition-all ${
+                                                            isDone ? 'bg-successGreen text-white' :
+                                                            isCurrent ? 'bg-bloodRed text-white ring-4 ring-bloodRed/20' :
+                                                            'bg-slate-100 text-slate-400 border border-slate-200'
+                                                        }">
+                                                            ${isDone ? '<i class="fa-solid fa-check"></i>' : s.step}
+                                                        </div>
+                                                        <span class="text-[11px] font-semibold leading-tight ${
+                                                            isDone ? 'text-successGreen' :
+                                                            isCurrent ? 'text-bloodRed' : 'text-slate-400'
+                                                        }">${s.title}</span>
+                                                    </div>
+                                                `;
+                                            }).join('')}
+                                        </div>
+                                    </div>
+                                ` : `
+                                    <div class="p-3 rounded-xl bg-red-50 text-bloodRed text-xs font-medium">
+                                        <i class="fa-solid fa-circle-xmark mr-1"></i> คำขอนี้ถูกยกเลิกโดยเจ้าหน้าที่โรงพยาบาล
+                                    </div>
+                                `}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==========================================
+        // 5. DONOR VIEWS (ผู้บริจาคเลือด)
+        // ==========================================
+        function renderDonorView() {
+            if (state.currentTab === 'home') return renderDonorHome();
+            if (state.currentTab === 'requests') return renderDonorRequests();
+            if (state.currentTab === 'notification') return renderDonorNotifications();
+            if (state.currentTab === 'history') return renderDonorHistory();
+        }
+
+        function toggleDonorReadiness() {
+            const me = state.donors[0];
+            me.status = me.status === 'ready' ? 'not_ready' : 'ready';
+            showToast(me.status === 'ready' ? 'อัปเดตสถานะเป็น "พร้อมบริจาค" แล้ว' : 'อัปเดตสถานะเป็น "พักฟื้นชั่วคราว"', me.status === 'ready' ? 'success' : 'info');
+            renderApp();
+        }
+
+        function renderDonorHome() {
+            const me = state.donors[0]; // คุณกิตติพงศ์ (O-)
+            const matchingReqs = state.requests.filter(r => r.status === 'verified' && COMPATIBILITY[r.bloodType]?.includes(me.bloodType));
+
+            return `
+                <div class="space-y-6">
+                    <!-- Donor Digital Card & Readiness Toggle -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 bg-gradient-to-br from-medicalNavy to-medicalNavy-light rounded-3xl p-6 sm:p-8 text-white shadow-lg flex flex-col justify-between relative overflow-hidden">
+                            <div class="flex items-start justify-between gap-4 relative z-10">
+                                <div>
+                                    <span class="px-3 py-1 rounded-full bg-white/10 text-softBlue text-xs font-medium">Donor Digital ID • ${me.id}</span>
+                                    <h2 class="text-2xl font-bold mt-2">${me.name}</h2>
+                                    <p class="text-sm text-slate-300 mt-0.5">โรงพยาบาลประจำ: ${me.hospitalPref}</p>
+                                </div>
+                                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-bloodRed border-2 border-white/30 flex flex-col items-center justify-center shadow-lg shrink-0">
+                                    <span class="text-2xl sm:text-3xl font-extrabold">${me.bloodType}</span>
+                                    <span class="text-[10px] uppercase tracking-wider opacity-90">หมู่เลือด</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-8 pt-5 border-t border-white/15 flex flex-wrap items-center justify-between gap-4 relative z-10">
+                                <div class="flex items-center gap-6">
+                                    <div>
+                                        <span class="text-xs text-slate-300 block">บริจาคสะสม</span>
+                                        <span class="text-xl font-bold text-softBlue">${me.totalDonations} ครั้ง</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs text-slate-300 block">บริจาคล่าสุด</span>
+                                        <span class="text-sm font-semibold">${me.lastDonation}</span>
+                                    </div>
+                                </div>
+
+                                <!-- Readiness Toggle Pill -->
+                                <button onclick="toggleDonorReadiness()" class="pill-btn px-5 py-2.5 rounded-full font-semibold text-sm flex items-center gap-2.5 shadow-md ${
+                                    me.status === 'ready' 
+                                    ? 'bg-successGreen text-white' 
+                                    : 'bg-slate-600 text-slate-200'
+                                }">
+                                    <span class="w-2.5 h-2.5 rounded-full ${me.status === 'ready' ? 'bg-white animate-pulse' : 'bg-slate-400'}"></span>
+                                    <span>${me.status === 'ready' ? 'สถานะ: พร้อมบริจาค' : 'สถานะ: พักฟื้น'}</span>
+                                    <i class="fa-solid fa-repeat text-xs opacity-80"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quick Alert Box -->
+                        <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
+                            <div>
+                                <div class="w-12 h-12 rounded-2xl bg-bloodRed-light text-bloodRed flex items-center justify-center text-xl mb-4">
+                                    <i class="fa-solid fa-bell-concierge"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-medicalNavy">คำขอเลือดที่ตรงกับคุณ</h3>
+                                <p class="text-sm text-slate-600 mt-1">
+                                    ขณะนี้มีคำขอเลือดที่ผ่านการตรวจสอบจากโรงพยาบาลและตรงกับหมู่เลือด <strong>${me.bloodType}</strong> จำนวน <strong class="text-bloodRed">${matchingReqs.length} เคส</strong>
+                                </p>
+                            </div>
+                            <button onclick="switchTab('requests')" class="mt-6 w-full py-3 rounded-full bg-bloodRed hover:bg-bloodRed-dark text-white font-semibold text-sm transition shadow-sm">
+                                ดูคำขอเลือดเร่งด่วน (${matchingReqs.length})
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Urgent Requests Feed -->
+                    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
+                        <h3 class="text-lg font-bold text-medicalNavy mb-4 flex items-center gap-2">
+                            <span class="w-1.5 h-5 bg-bloodRed rounded-full"></span>
+                            เคสฉุกเฉินใกล้พื้นที่ของคุณ (Location Match)
+                        </h3>
+                        ${renderDonorRequestCards(matchingReqs)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDonorRequests() {
+            const me = state.donors[0];
+            const verifiedReqs = state.requests.filter(r => r.status === 'verified' || r.status === 'accepted');
+
+            return `
+                <div class="space-y-6">
+                    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <h2 class="text-xl font-bold text-medicalNavy">คำขอรับบริจาคโลหิต (Blood Request)</h2>
+                            <p class="text-xs text-slate-500">แสดงเฉพาะคำขอที่ผ่านการยืนยันจากโรงพยาบาลแล้ว (ขั้นตอนที่ 5-6)</p>
+                        </div>
+                        <span class="px-4 py-1.5 rounded-full text-xs font-semibold bg-successGreen-light text-successGreen self-start sm:self-auto">
+                            หมู่เลือดของคุณ: ${me.bloodType} (Universal Donor)
+                        </span>
+                    </div>
+
+                    ${renderDonorRequestCards(verifiedReqs)}
+                </div>
+            `;
+        }
+
+        function renderDonorRequestCards(list) {
+            const me = state.donors[0];
+            if (list.length === 0) {
+                return `
+                    <div class="text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                        <i class="fa-solid fa-heart-circle-check text-4xl text-slate-300 mb-3"></i>
+                        <p class="text-slate-500 font-medium">ยังไม่มีคำขอเลือดที่รอการตอบรับในขณะนี้</p>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    ${list.map(req => {
+                        const isCompatible = COMPATIBILITY[req.bloodType]?.includes(me.bloodType);
+                        const acceptedByMe = req.acceptedDonor && req.acceptedDonor.id === me.id;
+
+                        return `
+                            <div class="p-5 rounded-2xl border ${acceptedByMe ? 'border-successGreen bg-successGreen-light/20' : 'border-slate-200 bg-white'} shadow-sm flex flex-col justify-between gap-4">
+                                <div>
+                                    <div class="flex items-start justify-between gap-2 mb-3">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-12 h-12 rounded-2xl bg-bloodRed text-white font-bold text-lg flex items-center justify-center shrink-0">
+                                                ${req.bloodType}
+                                            </div>
+                                            <div>
+                                                <span class="text-xs font-semibold text-bloodRed">${req.urgency}</span>
+                                                <h4 class="font-bold text-medicalNavy text-base">${req.hospital}</h4>
+                                                <p class="text-xs text-slate-500">ผู้ป่วย: ${req.patientName} • ต้องการ ${req.units} ยูนิต</p>
+                                            </div>
+                                        </div>
+                                        ${isCompatible ? `<span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-successGreen-light text-successGreen">ตรงกับคุณ</span>` : ''}
+                                    </div>
+                                    <p class="text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100">${req.notes}</p>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+                                    <span class="text-xs font-semibold text-medicalNavy"><i class="fa-solid fa-location-dot text-bloodRed mr-1"></i>ระยะทาง 1.8 กม.</span>
+                                    <div class="flex items-center gap-2">
+                                        <button onclick="openRequestModal('${req.id}')" class="px-3.5 py-2 rounded-full text-xs font-semibold bg-softBlue text-medicalNavy hover:brightness-95 transition">
+                                            ดูรายละเอียด
+                                        </button>
+                                        ${req.status === 'verified' ? `
+                                            <button onclick="donorAcceptRequest('${req.id}')" class="pill-btn px-4 py-2 rounded-full text-xs font-semibold bg-successGreen hover:brightness-95 text-white shadow-sm flex items-center gap-1.5">
+                                                <i class="fa-solid fa-hand-holding-heart"></i> ตอบรับบริจาค
+                                            </button>
+                                        ` : `
+                                            <span class="px-3.5 py-2 rounded-full text-xs font-semibold bg-successGreen text-white">
+                                                <i class="fa-solid fa-check mr-1"></i> ตอบรับแล้ว
+                                            </span>
+                                        `}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function donorAcceptRequest(reqId) {
+            const me = state.donors[0];
+            if (me.status !== 'ready') {
+                showToast('กรุณาเปลี่ยนสถานะของคุณเป็น "พร้อมบริจาค" ก่อนตอบรับคำขอ', 'warning');
+                return;
+            }
+            const req = state.requests.find(r => r.id === reqId);
+            if (!req) return;
+
+            req.status = 'accepted';
+            req.currentStep = 7; // Step 6 ผู้บริจาคตอบรับ -> Step 7 โรงพยาบาลตรวจสอบ
+            req.acceptedDonor = {
+                id: me.id,
+                name: me.name,
+                bloodType: me.bloodType,
+                distance: me.distance,
+                arrived: true
+            };
+
+            showToast(`คุณได้ตอบรับคำขอ ${req.id} แล้ว! ข้อมูลถูกส่งไปยังเจ้าหน้าที่โรงพยาบาล`, 'success');
+            renderApp();
+        }
+
+        function renderDonorNotifications() {
+            return `
+                <div class="max-w-3xl mx-auto bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                        <h2 class="text-xl font-bold text-medicalNavy flex items-center gap-2">
+                            <i class="fa-solid fa-bell text-bloodRed"></i> การแจ้งเตือน (Notification)
+                        </h2>
+                        <span class="text-xs text-slate-500">ทั้งหมด ${state.notifications.length} รายการ</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        ${state.notifications.map(n => `
+                            <div class="p-4 rounded-2xl border ${n.type === 'urgent' ? 'border-bloodRed/30 bg-bloodRed-light/20' : 'border-slate-200 bg-slate-50'} flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div class="flex items-start gap-3.5">
+                                    <div class="w-10 h-10 rounded-full ${n.type === 'urgent' ? 'bg-bloodRed text-white' : 'bg-medicalNavy text-white'} flex items-center justify-center shrink-0 mt-0.5">
+                                        <i class="fa-solid ${n.type === 'urgent' ? 'fa-droplet' : 'fa-circle-info'}"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-[11px] text-slate-400">${n.time}</span>
+                                        <h4 class="font-bold text-medicalNavy text-sm">${n.title}</h4>
+                                        <p class="text-xs text-slate-600 mt-0.5">${n.message}</p>
+                                    </div>
+                                </div>
+                                ${n.reqId ? `
+                                    <button onclick="switchTab('requests')" class="shrink-0 self-end sm:self-center px-4 py-2 rounded-full text-xs font-semibold bg-bloodRed text-white hover:bg-bloodRed-dark transition">
+                                        ไปตอบรับ
+                                    </button>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDonorHistory() {
+            const me = state.donors[0];
+            return `
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Profile & Eligibility -->
+                    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
+                        <h3 class="text-lg font-bold text-medicalNavy">ข้อมูลส่วนตัว & เกณฑ์สุขภาพ</h3>
+                        <div class="space-y-2.5 text-sm">
+                            <div class="flex justify-between py-2 border-b border-slate-100">
+                                <span class="text-slate-500">ชื่อ-นามสกุล</span>
+                                <span class="font-semibold text-medicalNavy">${me.name}</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-slate-100">
+                                <span class="text-slate-500">หมู่โลหิต</span>
+                                <span class="font-bold text-bloodRed">${me.bloodType}</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-slate-100">
+                                <span class="text-slate-500">เบอร์โทรศัพท์</span>
+                                <span class="font-semibold text-medicalNavy">${me.phone}</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-successGreen-light/60 border border-successGreen/20 space-y-2">
+                            <h4 class="text-xs font-bold text-successGreen uppercase">ผ่านเกณฑ์ความพร้อมเบื้องต้น</h4>
+                            <ul class="text-xs text-slate-700 space-y-1.5">
+                                <li><i class="fa-solid fa-check text-successGreen mr-1.5"></i>เว้นระยะห่างจากครั้งก่อนเกิน 90 วัน</li>
+                                <li><i class="fa-solid fa-check text-successGreen mr-1.5"></i>น้ำหนักมากกว่า 45 กิโลกรัม</li>
+                                <li><i class="fa-solid fa-check text-successGreen mr-1.5"></i>ไม่มีประวัติเสี่ยงหรือรับประทานยาปฏิชีวนะ</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Donation History -->
+                    <div class="lg:col-span-2 bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
+                        <h3 class="text-lg font-bold text-medicalNavy mb-4">ประวัติการบริจาคโลหิต (Donation History)</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-200 text-xs text-slate-500">
+                                        <th class="py-3 px-2">วันที่บริจาค</th>
+                                        <th class="py-3 px-2">สถานที่ / โรงพยาบาล</th>
+                                        <th class="py-3 px-2">รหัสคำขอ</th>
+                                        <th class="py-3 px-2">ปริมาณ</th>
+                                        <th class="py-3 px-2">สถานะ</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 text-sm">
+                                    ${state.donationHistory.map(h => `
+                                        <tr>
+                                            <td class="py-3.5 px-2 font-medium text-medicalNavy">${h.date}</td>
+                                            <td class="py-3.5 px-2 text-slate-600">${h.hospital}</td>
+                                            <td class="py-3.5 px-2 text-xs font-mono text-slate-500">${h.reqId}</td>
+                                            <td class="py-3.5 px-2 font-semibold">${h.units} ยูนิต</td>
+                                            <td class="py-3.5 px-2">
+                                                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-successGreen-light text-successGreen">${h.status}</span>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==========================================
+        // 6. HOSPITAL STAFF VIEWS (เจ้าหน้าที่โรงพยาบาล)
+        // ==========================================
+        function renderStaffView() {
+            if (state.currentTab === 'dashboard') return renderStaffDashboard();
+            if (state.currentTab === 'verification') return renderStaffVerification();
+            if (state.currentTab === 'donation_status') return renderStaffDonationStatus();
+        }
+
+        function renderStaffDashboard() {
+            const pendingCount = state.requests.filter(r => r.status === 'pending').length;
+            const activeMatchCount = state.requests.filter(r => r.status === 'verified' || r.status === 'accepted').length;
+            const completedCount = state.requests.filter(r => r.status === 'completed').length;
+
+            return `
+                <div class="space-y-6">
+                    <!-- Staff Header -->
+                    <div class="bg-gradient-to-r from-successGreen to-medicalNavy rounded-3xl p-6 sm:p-8 text-white shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <span class="px-3 py-1 rounded-full bg-white/15 text-xs font-semibold">Hospital Staff Portal • ระบบจัดการโรงพยาบาล</span>
+                            <h2 class="text-2xl font-bold mt-2">ศูนย์บริหารจัดการคำขอและตรวจสอบการบริจาคโลหิต</h2>
+                            <p class="text-sm text-slate-100 mt-1">ตรวจสอบความถูกต้องของคำขอ (ขั้นตอนที่ 3) และบันทึกผลการบริจาค ณ โรงพยาบาล (ขั้นตอนที่ 7-8)</p>
+                        </div>
+                        <button onclick="switchTab('verification')" class="shrink-0 pill-btn px-6 py-3 rounded-full bg-white text-successGreen font-bold text-sm shadow-md">
+                            ตรวจสอบคำขอใหม่ (${pendingCount})
+                        </button>
+                    </div>
+
+                    <!-- KPI Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div onclick="switchTab('verification')" class="cursor-pointer bg-white p-5 rounded-2xl border border-slate-200 hover:border-amber-400 transition shadow-sm">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-semibold text-slate-500">รอการตรวจสอบ (Step 3)</span>
+                                <span class="w-8 h-8 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center"><i class="fa-solid fa-hourglass-half"></i></span>
+                            </div>
+                            <p class="text-3xl font-bold text-medicalNavy">${pendingCount} <span class="text-sm font-normal text-slate-400">คำขอ</span></p>
+                        </div>
+
+                        <div onclick="switchTab('donation_status')" class="cursor-pointer bg-white p-5 rounded-2xl border border-slate-200 hover:border-blue-400 transition shadow-sm">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-semibold text-slate-500">กำลังจับคู่ / รอบริจาค (Step 4-7)</span>
+                                <span class="w-8 h-8 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-users"></i></span>
+                            </div>
+                            <p class="text-3xl font-bold text-medicalNavy">${activeMatchCount} <span class="text-sm font-normal text-slate-400">เคส</span></p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-semibold text-slate-500">บริจาคสำเร็จแล้ว (Step 8)</span>
+                                <span class="w-8 h-8 rounded-xl bg-successGreen-light text-successGreen flex items-center justify-center"><i class="fa-solid fa-circle-check"></i></span>
+                            </div>
+                            <p class="text-3xl font-bold text-successGreen">${completedCount} <span class="text-sm font-normal text-slate-400">เคส</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Overview Table -->
+                    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
+                        <h3 class="text-lg font-bold text-medicalNavy mb-4">รายการคำขอเลือดทั้งหมดในระบบ</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-200 text-xs text-slate-500">
+                                        <th class="py-3 px-3">รหัสคำขอ</th>
+                                        <th class="py-3 px-3">ผู้ป่วย</th>
+                                        <th class="py-3 px-3">หมู่เลือด</th>
+                                        <th class="py-3 px-3">โรงพยาบาล</th>
+                                        <th class="py-3 px-3">สถานะ</th>
+                                        <th class="py-3 px-3 text-right">การจัดการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 text-sm">
+                                    ${state.requests.map(req => `
+                                        <tr class="hover:bg-slate-50/80">
+                                            <td class="py-3.5 px-3 font-semibold text-medicalNavy">${req.id}</td>
+                                            <td class="py-3.5 px-3">${req.patientName}</td>
+                                            <td class="py-3.5 px-3"><span class="px-2.5 py-1 rounded-lg bg-bloodRed-light text-bloodRed font-bold text-xs">${req.bloodType} (${req.units}U)</span></td>
+                                            <td class="py-3.5 px-3 text-slate-600 text-xs">${req.hospital}</td>
+                                            <td class="py-3.5 px-3">${renderStatusBadge(req.status)}</td>
+                                            <td class="py-3.5 px-3 text-right">
+                                                <button onclick="openRequestModal('${req.id}')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-softBlue text-medicalNavy hover:brightness-95">
+                                                    ดูรายละเอียด
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderStaffVerification() {
+            const pendingReqs = state.requests.filter(r => r.status === 'pending');
+
+            return `
+                <div class="space-y-6">
+                    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
+                        <h2 class="text-xl font-bold text-medicalNavy">ตรวจสอบคำขอเลือด (Request Verification — ขั้นตอนที่ 3)</h2>
+                        <p class="text-xs text-slate-500 mt-1">เมื่อเจ้าหน้าที่กด "ยืนยันแล้ว" ระบบจะค้นหาผู้บริจาคที่เหมาะสม (ขั้นตอนที่ 4) และส่งการแจ้งเตือน (ขั้นตอนที่ 5) อัตโนมัติ</p>
+                    </div>
+
+                    ${pendingReqs.length === 0 ? `
+                        <div class="bg-white rounded-3xl border border-slate-200 p-12 text-center">
+                            <div class="w-16 h-16 rounded-full bg-successGreen-light text-successGreen flex items-center justify-center text-2xl mx-auto mb-3">
+                                <i class="fa-solid fa-check-double"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-medicalNavy">ไม่มีคำขอที่ค้างการตรวจสอบ</h3>
+                            <p class="text-sm text-slate-500 mt-1">คุณสามารถสลับไปที่บทบาท <strong>Requester</strong> เพื่อลองสร้างคำขอใหม่ได้</p>
+                        </div>
+                    ` : `
+                        <div class="grid grid-cols-1 gap-4">
+                            ${pendingReqs.map(req => `
+                                <div class="bg-white rounded-3xl border border-amber-200 p-6 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                                    <div class="space-y-2">
+                                        <div class="flex flex-wrap items-center gap-2">
+                                            <span class="text-xs font-bold text-slate-400">${req.id}</span>
+                                            ${renderStatusBadge(req.status)}
+                                            <span class="text-xs font-semibold text-bloodRed">${req.urgency}</span>
+                                        </div>
+                                        <h3 class="text-xl font-bold text-medicalNavy">ผู้ป่วย: ${req.patientName} • ต้องการหมู่เลือด <span class="text-bloodRed">${req.bloodType}</span> (${req.units} ยูนิต)</h3>
+                                        <p class="text-sm text-slate-600"><i class="fa-solid fa-hospital text-successGreen mr-1.5"></i>${req.hospital} | ผู้ติดต่อ: ${req.requesterName}</p>
+                                        <p class="text-xs text-slate-500 bg-slate-50 p-3 rounded-xl border border-slate-100">หมายเหตุ: ${req.notes}</p>
+                                    </div>
+
+                                    <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+                                        <button onclick="openRequestModal('${req.id}')" class="px-4 py-2.5 rounded-full text-xs font-semibold bg-softBlue text-medicalNavy hover:brightness-95 transition">
+                                            ดูรายละเอียด
+                                        </button>
+                                        <button onclick="staffVerifyRequest('${req.id}', 'cancelled')" class="px-4 py-2.5 rounded-full text-xs font-semibold bg-[#FEE2E2] text-bloodRed hover:bg-bloodRed hover:text-white transition">
+                                            ยกเลิก
+                                        </button>
+                                        <button onclick="staffVerifyRequest('${req.id}', 'verified')" class="pill-btn px-5 py-2.5 rounded-full text-xs font-semibold bg-successGreen hover:brightness-95 text-white shadow-md flex items-center gap-1.5">
+                                            <i class="fa-solid fa-circle-check"></i> อนุมัติคำขอ (ยืนยันแล้ว)
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function staffVerifyRequest(reqId, action) {
+            const req = state.requests.find(r => r.id === reqId);
+            if (!req) return;
+
+            if (action === 'verified') {
+                const compatibleTypes = COMPATIBILITY[req.bloodType] || [req.bloodType];
+                const readyMatches = state.donors.filter(d => d.status === 'ready' && compatibleTypes.includes(d.bloodType));
+                
+                req.status = 'verified';
+                req.currentStep = 5; // Moves through Step 4 (ค้นหาผู้บริจาค) to Step 5 (แจ้งเตือน)
+                req.matchedDonorCount = readyMatches.length;
+
+                // Push notification to Donor
+                state.notifications.unshift({
+                    id: `NOTIF-${Date.now()}`,
+                    reqId: req.id,
+                    title: `แจ้งเตือนฉุกเฉิน: ต้องการเลือดหมู่ ${req.bloodType} (${req.units} ยูนิต)`,
+                    message: `${req.patientName} ณ ${req.hospital} • ผ่านการยืนยันจากโรงพยาบาลแล้ว`,
+                    time: 'เมื่อสักครู่',
+                    read: false,
+                    type: 'urgent'
+                });
+
+                showToast(`ยืนยันคำขอ ${req.id} แล้ว! ระบบแจ้งเตือนผู้บริจาคที่เข้าเกณฑ์ ${readyMatches.length} คน`, 'success');
+            } else {
+                req.status = 'cancelled';
+                showToast(`ยกเลิกคำขอ ${req.id} เรียบร้อยแล้ว`, 'error');
+            }
+            renderApp();
+        }
+
+        function renderStaffDonationStatus() {
+            const activeDonations = state.requests.filter(r => r.status === 'verified' || r.status === 'accepted' || r.status === 'completed');
+
+            return `
+                <div class="space-y-6">
+                    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
+                        <h2 class="text-xl font-bold text-medicalNavy">จัดการสถานะการบริจาค (Donation Status — ขั้นตอนที่ 7-8)</h2>
+                        <p class="text-xs text-slate-500 mt-1">ตรวจคัดกรองผู้บริจาคที่เดินทางมาถึงโรงพยาบาล และอัปเดตสถานะเมื่อบริจาคโลหิตเสร็จสมบูรณ์</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${activeDonations.map(req => `
+                            <div class="bg-white rounded-3xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between gap-4">
+                                <div>
+                                    <div class="flex items-center justify-between gap-2 mb-2">
+                                        <span class="text-xs font-bold text-slate-400">${req.id}</span>
+                                        ${renderStatusBadge(req.status)}
+                                    </div>
+                                    <h3 class="text-lg font-bold text-medicalNavy">${req.patientName} (หมู่ ${req.bloodType} • ${req.units} ยูนิต)</h3>
+                                    <p class="text-xs text-slate-500 mb-3">${req.hospital}</p>
+
+                                    ${req.acceptedDonor ? `
+                                        <div class="p-3.5 rounded-2xl bg-successGreen-light/60 border border-successGreen/30 flex items-center justify-between">
+                                            <div>
+                                                <span class="text-[11px] font-bold text-successGreen block">ผู้บริจาคที่ตอบรับ:</span>
+                                                <span class="text-sm font-bold text-medicalNavy">${req.acceptedDonor.name} (หมู่ ${req.acceptedDonor.bloodType})</span>
+                                            </div>
+                                            <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white text-successGreen border border-successGreen/20">
+                                                Step ${req.currentStep}/8
+                                            </span>
+                                        </div>
+                                    ` : `
+                                        <div class="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-100 text-xs text-blue-800">
+                                            <i class="fa-solid fa-spinner fa-spin mr-1.5"></i> ส่งแจ้งเตือนไปยังผู้บริจาค ${req.matchedDonorCount} คนแล้ว กำลังรอผู้บริจาคกดตอบรับ...
+                                        </div>
+                                    `}
+                                </div>
+
+                                <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+                                    ${req.status === 'accepted' ? `
+                                        <button onclick="staffCompleteDonation('${req.id}')" class="pill-btn px-5 py-2.5 rounded-full text-xs font-semibold bg-successGreen hover:brightness-95 text-white shadow-sm flex items-center gap-1.5">
+                                            <i class="fa-solid fa-check-double"></i> ยืนยันบริจาคสำเร็จ (Step 8)
+                                        </button>
+                                    ` : req.status === 'verified' ? `
+                                        <button onclick="switchRole('donor', 'requests')" class="px-4 py-2 rounded-full text-xs font-semibold bg-softBlue text-medicalNavy hover:brightness-95">
+                                            สลับไปหน้า Donor เพื่อกดตอบรับ →
+                                        </button>
+                                    ` : `
+                                        <span class="text-xs font-bold text-successGreen"><i class="fa-solid fa-circle-check mr-1"></i> ปิดเคสสมบูรณ์แล้ว</span>
+                                    `}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function staffCompleteDonation(reqId) {
+            const req = state.requests.find(r => r.id === reqId);
+            if (!req) return;
+
+            req.status = 'completed';
+            req.currentStep = 8; // Step 8: อัปเดตสถานะ
+
+            // If accepted by our main demo donor (D-01), add to their donation history
+            if (req.acceptedDonor && req.acceptedDonor.id === 'D-01') {
+                state.donors[0].totalDonations += 1;
+                state.donors[0].lastDonation = 'วันนี้';
+                state.donors[0].status = 'not_ready';
+                state.donationHistory.unshift({
+                    date: '13 พ.ย. 2026',
+                    hospital: req.hospital,
+                    units: req.units,
+                    reqId: req.id,
+                    status: 'เสร็จสมบูรณ์'
+                });
+            }
+
+            showToast(`บันทึกการบริจาคเคส ${req.id} เสร็จสมบูรณ์! (ขั้นตอนที่ 8: อัปเดตสถานะ)`, 'success');
+            renderApp();
+        }
+
+        // ==========================================
+        // 7. ARCHITECTURE & 8-STEP PROCESS VIEW
+        // ==========================================
+        function renderArchitectureView() {
+            if (state.currentTab === 'process') {
+                return `
+                    <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-8">
+                        <div>
+                            <span class="text-xs font-bold text-bloodRed uppercase tracking-wider">Blood Donor Match</span>
+                            <h2 class="text-2xl font-bold text-medicalNavy flex items-center gap-2.5 mt-1">
+                                <span class="w-1.5 h-7 bg-bloodRed rounded-full"></span>
+                                Business Process Diagram (8 ขั้นตอนการทำงาน)
+                            </h2>
+                            <div class="h-0.5 bg-bloodRed w-full mt-4"></div>
+                        </div>
+
+                        <!-- 8 Steps Grid Matching Slide 11 -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                            ${PROCESS_STEPS.map(s => {
+                                const isFinal = s.step === 8;
+                                return `
+                                    <div class="relative pt-4">
+                                        <div class="w-9 h-9 rounded-full ${isFinal ? 'bg-successGreen text-white' : 'bg-white text-bloodRed border-2 border-bloodRed'} font-bold text-sm flex items-center justify-center mx-auto -mb-4 relative z-10 shadow-sm">
+                                            ${s.step}
+                                        </div>
+                                        <div class="p-5 pt-7 rounded-2xl border ${isFinal ? 'bg-successGreen text-white border-successGreen' : 'bg-white text-medicalNavy border-slate-200'} shadow-sm text-center h-full flex flex-col justify-center">
+                                            <h3 class="font-bold text-base mb-1">${s.title}</h3>
+                                            <p class="text-xs ${isFinal ? 'text-emerald-100' : 'text-slate-500'}">${s.desc}</p>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+
+                        <!-- Software Architecture Stack Matching Slide 12 -->
+                        <div class="pt-6 border-t border-slate-200">
+                            <h3 class="text-xl font-bold text-medicalNavy mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-cloud text-bloodRed"></i> Software Architecture Layers
+                            </h3>
+                            <div class="max-w-3xl mx-auto space-y-3">
+                                <div class="p-3.5 rounded-2xl border border-slate-200 bg-white text-center font-semibold text-medicalNavy text-sm shadow-sm">
+                                    Requester / Donor / Hospital / Admin
+                                </div>
+                                <div class="p-3.5 rounded-2xl border border-slate-200 bg-white text-center font-semibold text-medicalNavy text-sm shadow-sm">
+                                    Web / Mobile UI — หน้าจอใช้งานของแต่ละ Role
+                                </div>
+                                <div class="p-3.5 rounded-2xl border border-slate-200 bg-white text-center font-semibold text-medicalNavy text-sm shadow-sm">
+                                    Backend / API — Login, สิทธิ์, Business logic
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <div class="p-4 rounded-2xl bg-softBlue-light/70 border border-softBlue text-center">
+                                        <div class="font-bold text-medicalNavy text-sm">Database</div>
+                                        <div class="text-xs text-slate-600 mt-0.5">ผู้ใช้คำขอสถานะ</div>
+                                    </div>
+                                    <div class="p-4 rounded-2xl bg-softBlue-light/70 border border-softBlue text-center">
+                                        <div class="font-bold text-medicalNavy text-sm">Matching</div>
+                                        <div class="text-xs text-slate-600 mt-0.5">กรุ๊ปเลือด+พื้นที่+ความพร้อม</div>
+                                    </div>
+                                    <div class="p-4 rounded-2xl bg-softBlue-light/70 border border-softBlue text-center">
+                                        <div class="font-bold text-medicalNavy text-sm">Notification</div>
+                                        <div class="text-xs text-slate-600 mt-0.5">แจ้งเตือนผู้บริจาค</div>
+                                    </div>
+                                </div>
+                                <div class="p-3.5 rounded-2xl bg-successGreen text-white text-center font-semibold text-sm shadow-md">
+                                    Location API — คำนวณระยะทาง
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // UI Design System View Matching Slide 14
+            return `
+                <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-8">
+                    <div>
+                        <span class="text-xs font-bold text-bloodRed uppercase tracking-wider">Blood Donor Match</span>
+                        <h2 class="text-2xl font-bold text-medicalNavy flex items-center gap-2.5 mt-1">
+                            <span class="w-1.5 h-7 bg-bloodRed rounded-full"></span>
+                            UI Prototype Design System
+                        </h2>
+                        <div class="h-0.5 bg-bloodRed w-full mt-4"></div>
+                    </div>
+
+                    <!-- Color Palette -->
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4">Color Palette</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 text-center">
+                            <div>
+                                <div class="w-20 h-20 rounded-full bg-bloodRed-dark mx-auto shadow-md"></div>
+                                <p class="font-semibold text-medicalNavy text-sm mt-2">Blood Red</p>
+                                <span class="text-xs text-slate-400">#99000D / #D32F2F</span>
+                            </div>
+                            <div>
+                                <div class="w-20 h-20 rounded-full bg-medicalNavy mx-auto shadow-md"></div>
+                                <p class="font-semibold text-medicalNavy text-sm mt-2">Medical Navy</p>
+                                <span class="text-xs text-slate-400">#143652</span>
+                            </div>
+                            <div>
+                                <div class="w-20 h-20 rounded-full bg-softBlue mx-auto shadow-md border border-slate-200"></div>
+                                <p class="font-semibold text-medicalNavy text-sm mt-2">Soft Blue</p>
+                                <span class="text-xs text-slate-400">#BAF6FF</span>
+                            </div>
+                            <div>
+                                <div class="w-20 h-20 rounded-full bg-white mx-auto shadow-md border border-slate-200"></div>
+                                <p class="font-semibold text-medicalNavy text-sm mt-2">White</p>
+                                <span class="text-xs text-slate-400">#FFFFFF</span>
+                            </div>
+                            <div>
+                                <div class="w-20 h-20 rounded-full bg-successGreen mx-auto shadow-md"></div>
+                                <p class="font-semibold text-medicalNavy text-sm mt-2">Success Green</p>
+                                <span class="text-xs text-slate-400">#2E8B57</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buttons & Status Pills Matching Slide 14 -->
+                    <div class="pt-6 border-t border-slate-200">
+                        <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4">Action Buttons & Status Pills</h3>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <button onclick="switchRole('requester', 'create')" class="px-6 py-2.5 rounded-full bg-bloodRed text-white font-semibold text-sm shadow-sm">สร้างคำขอเลือด</button>
+                            <button onclick="openRequestModal('REQ-2026-001')" class="px-6 py-2.5 rounded-full bg-softBlue text-medicalNavy font-semibold text-sm shadow-sm">ดูรายละเอียด</button>
+                            <span class="px-4 py-2 rounded-full text-xs font-semibold bg-[#FEF3C7] text-[#B45309]">รอการตรวจสอบ</span>
+                            <span class="px-4 py-2 rounded-full text-xs font-semibold bg-[#E8F5E9] text-[#2E8B57]">พร้อมบริจาค</span>
+                            <span class="px-4 py-2 rounded-full text-xs font-semibold bg-[#DBEAFE] text-[#1D4ED8]">ยืนยันแล้ว</span>
+                            <span class="px-4 py-2 rounded-full text-xs font-semibold bg-[#FEE2E2] text-[#D32F2F]">ยกเลิก</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==========================================
+        // 8. MODAL FOR 'ดูรายละเอียด'
+        // ==========================================
+        function openRequestModal(reqId) {
+            const req = state.requests.find(r => r.id === reqId);
+            if (!req) return;
+
+            const modal = document.getElementById('detail-modal');
+            const title = document.getElementById('modal-title');
+            const body = document.getElementById('modal-body');
+
+            title.textContent = `รายละเอียดคำขอ ${req.id}`;
+            body.innerHTML = `
+                <div class="space-y-5">
+                    <div class="flex items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-14 h-14 rounded-2xl bg-bloodRed text-white font-bold text-2xl flex items-center justify-center">
+                                ${req.bloodType}
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-medicalNavy">${req.patientName}</h4>
+                                <p class="text-xs text-slate-500">สร้างเมื่อ: ${req.createdAt}</p>
+                            </div>
+                        </div>
+                        ${renderStatusBadge(req.status)}
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                        <div class="p-3 rounded-xl border border-slate-100 bg-slate-50/50">
+                            <span class="text-xs text-slate-400 block">โรงพยาบาล</span>
+                            <span class="font-semibold text-medicalNavy">${req.hospital}</span>
+                        </div>
+                        <div class="p-3 rounded-xl border border-slate-100 bg-slate-50/50">
+                            <span class="text-xs text-slate-400 block">จำนวนที่ต้องการ</span>
+                            <span class="font-semibold text-bloodRed">${req.units} ยูนิต</span>
+                        </div>
+                        <div class="p-3 rounded-xl border border-slate-100 bg-slate-50/50">
+                            <span class="text-xs text-slate-400 block">ระดับความเร่งด่วน</span>
+                            <span class="font-semibold text-medicalNavy">${req.urgency}</span>
+                        </div>
+                        <div class="p-3 rounded-xl border border-slate-100 bg-slate-50/50">
+                            <span class="text-xs text-slate-400 block">ผู้ยื่นคำขอ</span>
+                            <span class="font-semibold text-medicalNavy">${req.requesterName}</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="text-xs font-bold text-slate-500 block mb-1">รายละเอียดเพิ่มเติม</span>
+                        <p class="text-sm text-slate-700 p-3.5 rounded-xl bg-softBlue-light/40 border border-softBlue">${req.notes}</p>
+                    </div>
+
+                    ${req.acceptedDonor ? `
+                        <div class="p-4 rounded-2xl bg-successGreen-light border border-successGreen/30">
+                            <span class="text-xs font-bold text-successGreen block">ข้อมูลผู้บริจาคที่ตอบรับ</span>
+                            <p class="text-sm font-bold text-medicalNavy mt-0.5">${req.acceptedDonor.name} (หมู่เลือด ${req.acceptedDonor.bloodType})</p>
+                        </div>
+                    ` : ''}
+
+                    <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
+                        <button onclick="closeModal()" class="px-6 py-2.5 rounded-full bg-medicalNavy text-white text-sm font-semibold hover:brightness-110 transition">
+                            ปิดหน้าต่าง
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('detail-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Close modal when clicking backdrop
+        document.getElementById('detail-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // ==========================================
+        // 9. MASTER RENDER FUNCTION
+        // ==========================================
+        function renderApp() {
+            updateNavUI();
+            const view = document.getElementById('app-view');
+
+            if (state.currentRole === 'requester') {
+                view.innerHTML = renderRequesterView();
+            } else if (state.currentRole === 'donor') {
+                view.innerHTML = renderDonorView();
+            } else if (state.currentRole === 'staff') {
+                view.innerHTML = renderStaffView();
+            } else if (state.currentRole === 'architecture') {
+                view.innerHTML = renderArchitectureView();
+            }
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            selectLoginRole('requester');
+            updateAuthVisibility();
+            renderApp();
+        };
+    </script>
+</body>
+</html>
