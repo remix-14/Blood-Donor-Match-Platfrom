@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blood Donor Match — UI Prototype</title>
+    <title>Blood Donor Match </title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Prompt & Sarabun -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="httpss://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Font Awesome Icons -->
@@ -24,7 +24,7 @@
                         bloodRed: {
                             DEFAULT: '#D32F2F',
                             dark: '#99000D',
-                            light: '#FFEBEB',
+                            light: '#FFEBEE',
                         },
                         medicalNavy: {
                             DEFAULT: '#143652',
@@ -32,14 +32,14 @@
                         },
                         softBlue: {
                             DEFAULT: '#BAF6FF',
-                            light: '#E3EEFF',
+                            light: '#E3F2FD',
                             text: '#0D47A1',
                         },
                         successGreen: {
                             DEFAULT: '#2E8B57',
-                            light: '#DCF2E5',
+                            light: '#E8F5E9',
                         },
-                        bgCanvas: '#F5F9FC'
+                        bgCanvas: '#F8FAFC'
                     }
                 }
             }
@@ -47,7 +47,7 @@
     </script>
     <style>
         body {
-            background-color: #F5F9FC;
+            background-color: #F8FAFC;
             color: #143652;
             font-family: 'Prompt', sans-serif;
             overflow-x: hidden;
@@ -57,13 +57,13 @@
             position: fixed;
             top: 0;
             right: 0;
-            width: 260px;
-            height: 260px;
+            width: 240px;
+            height: 240px;
             background: radial-gradient(circle at top right, #D32F2F 0%, #99000D 100%);
             clip-path: circle(70% at 100% 0%);
             z-index: 0;
             pointer-events: none;
-            opacity: 0.92;
+            opacity: 0.9;
         }
         /* Custom scrollbar */
         ::-webkit-scrollbar {
@@ -88,186 +88,80 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col relative">
+<body class="min-h-screen flex flex-col relative overflow-hidden">
 
-    <!-- Slide Decorative Curve -->
-    <div class="top-right-curve hidden md:block"></div>
-
-    <!-- ========================================== -->
-    <!-- LOGIN SCREEN (หน้าแรกสุดก่อนเข้าสู่ระบบ)        -->
-    <!-- ========================================== -->
-    <div id="login-screen" class="min-h-screen flex items-center justify-center p-4 sm:p-6 relative z-20">
-        <div class="max-w-5xl w-full bg-white rounded-[32px] shadow-2xl border border-slate-200/80 overflow-hidden grid grid-cols-1 lg:grid-cols-12">
-            
-            <!-- Left Panel: Brand & Slide Design Overview -->
-            <div class="lg:col-span-5 bg-gradient-to-br from-medicalNavy via-medicalNavy-light to-bloodRed-dark p-7 sm:p-10 text-white flex flex-col justify-between relative overflow-hidden">
-                <div class="relative z-10">
-                    <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/15 text-softBlue text-xs font-semibold mb-6">
-                        <i class="fa-solid fa-droplet text-bloodRed bg-white w-5 h-5 rounded-full flex items-center justify-center text-[10px]"></i>
-                        <span>Blood Donor Match • UI Prototype</span>
-                    </div>
-
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="w-14 h-14 rounded-2xl bg-bloodRed flex items-center justify-center text-3xl shadow-lg border border-white/20 shrink-0">
-                            <i class="fa-solid fa-heart-pulse"></i>
-                        </div>
-                        <div>
-                            <h1 class="text-2xl sm:text-3xl font-bold leading-tight">Blood Donor Match</h1>
-                            <p class="text-xs text-softBlue">Smart Blood Donation Platform</p>
-                        </div>
-                    </div>
-
-                    <p class="text-sm text-slate-200 leading-relaxed mt-4">
-                        ระบบแพลตฟอร์มกลางสำหรับเชื่อมโยง <strong>ผู้ขอรับโลหิต</strong>, <strong>ผู้บริจาคโลหิต</strong> และ <strong>เจ้าหน้าที่โรงพยาบาล</strong> เพื่อจับคู่โลหิตที่เข้ากันได้ตามหมู่เลือด พื้นที่ และความพร้อมอย่างรวดเร็วและปลอดภัย
-                    </p>
-
-                    <!-- Role Highlights from Slide 14 -->
-                    <div class="mt-7 space-y-2.5 text-xs">
-                        <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/10">
-                            <span class="w-7 h-7 rounded-lg bg-bloodRed-light text-bloodRed flex items-center justify-center font-bold shrink-0"><i class="fa-solid fa-hand-holding-medical"></i></span>
-                            <span><strong>Requester:</strong> สร้างคำขอเลือด & ติดตามสถานะ 8 ขั้นตอน</span>
-                        </div>
-                        <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/10">
-                            <span class="w-7 h-7 rounded-lg bg-softBlue-light text-medicalNavy flex items-center justify-center font-bold shrink-0"><i class="fa-solid fa-heart"></i></span>
-                            <span><strong>Donor:</strong> แจ้งเตือนเคสใกล้ตัว & สวิตช์สถานะพร้อมบริจาค</span>
-                        </div>
-                        <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/10">
-                            <span class="w-7 h-7 rounded-lg bg-successGreen-light text-successGreen flex items-center justify-center font-bold shrink-0"><i class="fa-solid fa-user-doctor"></i></span>
-                            <span><strong>Hospital Staff:</strong> ตรวจสอบคำขอ & ยืนยันการบริจาค</span>
-                        </div>
-                    </div>
+    <!-- Login Screen -->
+    <div id="login-screen" class="fixed inset-0 z-[60] overflow-y-auto bg-bgCanvas">
+        <div class="min-h-full grid md:grid-cols-2">
+            <!-- Brand panel -->
+            <div class="hidden md:flex flex-col justify-between bg-gradient-to-br from-medicalNavy via-medicalNavy-light to-bloodRed-dark text-white p-12 relative overflow-hidden">
+                <div class="flex items-center gap-3 relative z-10">
+                    <div class="w-11 h-11 rounded-2xl bg-bloodRed flex items-center justify-center shadow-lg"><i class="fa-solid fa-droplet text-lg"></i></div>
+                    <span class="font-bold text-lg">Blood Donor Match</span>
                 </div>
-
-                <div class="relative z-10 mt-8 pt-5 border-t border-white/15 flex items-center justify-between gap-2">
-                    <button type="button" onclick="enterGuestArchitecture()" class="text-xs font-medium text-softBlue hover:text-white flex items-center gap-1.5 transition">
-                        <i class="fa-solid fa-diagram-project"></i>
-                        <span>ดูภาพรวม Process 8 ขั้นตอน & Architecture</span>
-                    </button>
-                    <div class="flex items-center gap-1">
-                        <span class="w-2.5 h-2.5 rounded-full bg-bloodRed border border-white/40"></span>
-                        <span class="w-2.5 h-2.5 rounded-full bg-medicalNavy border border-white/40"></span>
-                        <span class="w-2.5 h-2.5 rounded-full bg-softBlue"></span>
-                        <span class="w-2.5 h-2.5 rounded-full bg-white"></span>
-                        <span class="w-2.5 h-2.5 rounded-full bg-successGreen"></span>
-                    </div>
+                <div class="relative z-10 max-w-md">
+                    <h2 class="text-4xl font-bold leading-tight mb-4">จับคู่ผู้ป่วยกับผู้บริจาคโลหิตที่อยู่ใกล้ที่สุด</h2>
+                    <p class="text-slate-200 leading-relaxed">ผู้ขอรับเลือด ผู้บริจาค และเจ้าหน้าที่โรงพยาบาลใช้ระบบเดียวกัน ติดตามคำขอได้ครบทั้ง 8 ขั้นตอน</p>
                 </div>
-
-                <i class="fa-solid fa-hand-holding-droplet text-[180px] text-white/5 absolute -right-8 -bottom-8 pointer-events-none"></i>
+                <p class="text-xs text-slate-300 relative z-10">UI Prototype v1.0</p>
+                <i class="fa-solid fa-droplet text-[380px] text-white/5 absolute -right-16 -bottom-20 pointer-events-none"></i>
             </div>
 
-            <!-- Right Panel: Login Form & Role Selection -->
-            <div class="lg:col-span-7 p-7 sm:p-10 flex flex-col justify-center">
-                <div class="mb-6">
-                    <div class="flex items-center gap-2.5 mb-1">
-                        <span class="w-1.5 h-6 bg-bloodRed rounded-full"></span>
-                        <h2 class="text-2xl font-bold text-medicalNavy">เข้าสู่ระบบ (Sign In)</h2>
+            <!-- Form panel -->
+            <div class="flex items-center justify-center p-6 sm:p-12">
+                <div class="w-full max-w-md">
+                    <div class="md:hidden flex items-center gap-3 mb-8">
+                        <div class="w-10 h-10 rounded-2xl bg-bloodRed text-white flex items-center justify-center"><i class="fa-solid fa-droplet"></i></div>
+                        <span class="font-bold text-medicalNavy">Blood Donor Match</span>
                     </div>
-                    <p class="text-xs sm:text-sm text-slate-500">เลือกบทบาทผู้ใช้งานที่ต้องการทดสอบ ระบบจะกรอกบัญชีตัวอย่างให้อัตโนมัติ</p>
-                </div>
 
-                <!-- Step 1: Select Role Cards (Matching Slide 14 Colors) -->
-                <div class="mb-5">
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2.5">1. เลือกบทบาทผู้ใช้งาน (Select Role)</label>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                        <!-- Requester Role Card -->
-                        <button type="button" onclick="selectLoginRole('requester')" id="login-role-card-requester"
-                            class="p-3.5 rounded-2xl border-2 text-left transition-all flex sm:flex-col items-center sm:items-start gap-3 sm:gap-2">
-                            <div class="w-10 h-10 rounded-xl bg-bloodRed text-white flex items-center justify-center text-lg shrink-0 shadow-sm">
-                                <i class="fa-solid fa-hand-holding-medical"></i>
-                            </div>
-                            <div>
-                                <div class="font-bold text-sm text-bloodRed">Requester</div>
-                                <div class="text-[11px] text-slate-600">ผู้ขอรับเลือด / ญาติ</div>
-                            </div>
-                        </button>
+                    <h1 class="text-3xl font-bold text-medicalNavy">เข้าสู่ระบบ</h1>
+                    <p class="text-sm text-slate-500 mt-1.5 mb-6">เลือกบทบาทของคุณ แล้วกรอกบัญชีที่ลงทะเบียนไว้</p>
 
-                        <!-- Donor Role Card -->
-                        <button type="button" onclick="selectLoginRole('donor')" id="login-role-card-donor"
-                            class="p-3.5 rounded-2xl border-2 text-left transition-all flex sm:flex-col items-center sm:items-start gap-3 sm:gap-2">
-                            <div class="w-10 h-10 rounded-xl bg-medicalNavy text-white flex items-center justify-center text-lg shrink-0 shadow-sm">
-                                <i class="fa-solid fa-heart-pulse"></i>
-                            </div>
-                            <div>
-                                <div class="font-bold text-sm text-medicalNavy">Donor</div>
-                                <div class="text-[11px] text-slate-600">ผู้บริจาคโลหิต</div>
-                            </div>
-                        </button>
+                    <div id="login-roles" role="radiogroup" aria-label="บทบาทผู้ใช้งาน" class="grid grid-cols-3 gap-2.5 mb-5"></div>
 
-                        <!-- Hospital Staff Role Card -->
-                        <button type="button" onclick="selectLoginRole('staff')" id="login-role-card-staff"
-                            class="p-3.5 rounded-2xl border-2 text-left transition-all flex sm:flex-col items-center sm:items-start gap-3 sm:gap-2">
-                            <div class="w-10 h-10 rounded-xl bg-successGreen text-white flex items-center justify-center text-lg shrink-0 shadow-sm">
-                                <i class="fa-solid fa-user-doctor"></i>
-                            </div>
-                            <div>
-                                <div class="font-bold text-sm text-successGreen">Hospital Staff</div>
-                                <div class="text-[11px] text-slate-600">เจ้าหน้าที่โรงพยาบาล</div>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Step 2: Credentials Form -->
-                <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-medicalNavy mb-1.5">ชื่อผู้ใช้งาน / อีเมล (Username or Email)</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
-                                <i class="fa-solid fa-user"></i>
-                            </span>
-                            <input type="text" id="login-username" required
-                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-bloodRed focus:border-bloodRed outline-none text-sm bg-slate-50/60 font-medium text-medicalNavy">
+                    <form onsubmit="handleLogin(event)" novalidate class="space-y-4">
+                        <div>
+                            <label for="login-email" class="block text-sm font-semibold text-medicalNavy mb-1.5">อีเมล</label>
+                            <input type="email" id="login-email" autocomplete="username" placeholder="name@example.com"
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-bloodRed focus:border-bloodRed outline-none text-sm bg-white">
                         </div>
-                    </div>
-
-                    <div>
-                        <div class="flex items-center justify-between mb-1.5">
-                            <label class="block text-xs font-semibold text-medicalNavy">รหัสผ่าน (Password)</label>
-                            <span id="login-role-hint" class="text-[11px] font-medium text-bloodRed">บัญชีทดสอบ: ผู้ขอรับเลือด</span>
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <label for="login-password" class="text-sm font-semibold text-medicalNavy">รหัสผ่าน</label>
+                                <button type="button" onclick="showToast('เวอร์ชันต้นแบบยังไม่เปิดให้รีเซ็ตรหัสผ่าน','info')" class="text-xs font-medium text-bloodRed hover:underline">ลืมรหัสผ่าน</button>
+                            </div>
+                            <div class="relative">
+                                <input type="password" id="login-password" autocomplete="current-password" placeholder="อย่างน้อย 8 ตัวอักษร"
+                                    class="w-full pl-4 pr-12 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-bloodRed focus:border-bloodRed outline-none text-sm bg-white">
+                                <button type="button" id="login-pw-toggle" onclick="toggleLoginPassword()" aria-label="แสดงรหัสผ่าน"
+                                    class="absolute right-1.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full text-slate-400 hover:text-medicalNavy hover:bg-slate-100 flex items-center justify-center">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
-                                <i class="fa-solid fa-lock"></i>
-                            </span>
-                            <input type="password" id="login-password" value="demo1234" required
-                                class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-bloodRed focus:border-bloodRed outline-none text-sm bg-slate-50/60 text-medicalNavy">
-                            <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-medicalNavy">
-                                <i id="password-eye-icon" class="fa-solid fa-eye text-xs"></i>
-                            </button>
-                        </div>
+
+                        <p id="login-error" role="alert" class="hidden text-sm text-bloodRed bg-bloodRed-light border border-red-200 rounded-xl px-4 py-3"></p>
+
+                        <button type="submit" class="pill-btn w-full py-3.5 rounded-full bg-bloodRed hover:bg-bloodRed-dark text-white font-semibold shadow-md">เข้าสู่ระบบ</button>
+                    </form>
+
+                    <div class="mt-5 p-4 rounded-2xl bg-softBlue-light/70 border border-softBlue flex items-center justify-between gap-3">
+                        <p class="text-xs text-slate-600">ต้นแบบนี้ใช้บัญชีตัวอย่างสำหรับแต่ละบทบาท</p>
+                        <button type="button" onclick="fillDemoAccount()" class="shrink-0 px-4 py-2 rounded-full bg-softBlue text-medicalNavy text-xs font-semibold hover:brightness-95 transition">ใช้บัญชีตัวอย่าง</button>
                     </div>
 
-                    <div class="pt-2">
-                        <button type="submit" class="pill-btn w-full py-3.5 rounded-full bg-bloodRed hover:bg-bloodRed-dark text-white font-bold text-sm sm:text-base shadow-lg shadow-bloodRed/25 flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-right-to-bracket"></i>
-                            <span>เข้าสู่ระบบ (Login)</span>
-                        </button>
-                    </div>
-                </form>
-
-                <!-- Quick Demo Switch Shortcuts -->
-                <div class="mt-6 pt-5 border-t border-slate-100">
-                    <p class="text-[11px] font-semibold text-slate-400 text-center mb-2.5">หรือคลิกเข้าสู่ระบบทดสอบทันที (Demo Quick Login)</p>
-                    <div class="flex flex-wrap items-center justify-center gap-2">
-                        <button type="button" onclick="quickDemoLogin('requester')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-bloodRed-light text-bloodRed hover:bg-bloodRed hover:text-white transition">
-                            เข้าใช้งาน Requester
-                        </button>
-                        <button type="button" onclick="quickDemoLogin('donor')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-softBlue-light text-medicalNavy hover:bg-medicalNavy hover:text-white transition">
-                            เข้าใช้งาน Donor
-                        </button>
-                        <button type="button" onclick="quickDemoLogin('staff')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-successGreen-light text-successGreen hover:bg-successGreen hover:text-white transition">
-                            เข้าใช้งาน Hospital Staff
-                        </button>
-                    </div>
+                    <p class="text-sm text-slate-500 text-center mt-6">ยังไม่มีบัญชี?
+                        <button type="button" onclick="showToast('เวอร์ชันต้นแบบยังไม่เปิดให้สมัครสมาชิก','info')" class="font-semibold text-bloodRed hover:underline">สมัครสมาชิก</button>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- MAIN APP SHELL (ซ่อนไว้จนกว่าจะล็อคอินสำเร็จ)  -->
-    <!-- ========================================== -->
-    <div id="main-app-shell" class="hidden min-h-screen flex-col">
+
+    <!-- Slide Decorative Curve -->
+    <div class="top-right-curve hidden md:block"></div>
 
     <!-- Top Navigation & Role Switcher -->
     <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
@@ -281,60 +175,57 @@
                         <div>
                             <span class="text-xs font-semibold tracking-wider text-bloodRed uppercase block">Blood Donor Match</span>
                             <h1 class="text-xl sm:text-2xl font-bold text-medicalNavy flex items-center gap-2">
-                                UI Prototype
-                                <span id="active-user-badge" class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-slate-100 text-medicalNavy border border-slate-200">
-                                    <i class="fa-solid fa-circle-user text-bloodRed mr-1"></i>คุณวิภาดา (Requester)
-                                </span>
+                                <span class="text-xs font-normal px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">Interactive Demo</span>
                             </h1>
                         </div>
                     </div>
 
-                    <!-- Mobile Notification & Logout Quick Actions -->
-                    <div class="flex items-center gap-1.5 lg:hidden">
-                        <button onclick="switchRole('donor', 'notification')" class="relative p-2 text-medicalNavy hover:bg-slate-100 rounded-full">
-                            <i class="fa-solid fa-bell text-lg"></i>
-                            <span id="mobile-notif-badge" class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-bloodRed rounded-full"></span>
-                        </button>
-                        <button onclick="logoutUser()" class="px-3 py-1.5 rounded-full bg-slate-100 hover:bg-bloodRed hover:text-white text-slate-700 text-xs font-semibold transition flex items-center gap-1">
-                            <i class="fa-solid fa-right-from-bracket"></i> ออก
+                    <!-- Logged-in user -->
+                    <div id="user-chip" class="ml-auto lg:ml-6 mr-1 flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-medicalNavy text-white flex items-center justify-center text-xs shrink-0"><i class="fa-solid fa-user"></i></div>
+                        <div class="hidden sm:block leading-tight">
+                            <span id="user-name" class="block text-sm font-semibold text-medicalNavy"></span>
+                            <span id="user-role" class="block text-[11px] text-slate-500"></span>
+                        </div>
+                        <button onclick="handleLogout()" aria-label="ออกจากระบบ" class="flex items-center gap-1.5 px-3 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-medium transition">
+                            <i class="fa-solid fa-right-from-bracket"></i><span class="hidden sm:inline">ออกจากระบบ</span>
                         </button>
                     </div>
+
+                    <!-- Mobile Notification Quick Badge -->
+                    <button onclick="switchRole('donor', 'notification')" class="lg:hidden relative p-2 text-medicalNavy hover:bg-slate-100 rounded-full">
+                        <i class="fa-solid fa-bell text-lg"></i>
+                        <span id="mobile-notif-badge" class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-bloodRed rounded-full"></span>
+                    </button>
                 </div>
 
-                <!-- Role Switcher Pills & Logout Button -->
-                <div class="flex flex-wrap items-center gap-2">
-                    <div class="flex flex-wrap items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl border border-slate-200/80 flex-1 lg:flex-none">
-                        <button onclick="switchRole('requester')" id="role-btn-requester"
-                            class="role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition-all">
-                            <i class="fa-solid fa-hand-holding-medical"></i>
-                            <span>Requester</span>
-                        </button>
+                <!-- Role Switcher Pills -->
+                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200/80">
+                    <button onclick="switchRole('requester')" id="role-btn-requester"
+                        class="role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all">
+                        <i class="fa-solid fa-hand-holding-medical"></i>
+                        <span>Requester <span class="hidden sm:inline text-xs opacity-80">(ผู้ขอรับเลือด)</span></span>
+                    </button>
 
-                        <button onclick="switchRole('donor')" id="role-btn-donor"
-                            class="role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition-all relative">
-                            <i class="fa-solid fa-heart-pulse"></i>
-                            <span>Donor</span>
-                            <span id="donor-notif-dot" class="hidden w-2 h-2 rounded-full bg-bloodRed animate-ping"></span>
-                        </button>
+                    <button onclick="switchRole('donor')" id="role-btn-donor"
+                        class="role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all relative">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                        <span>Donor <span class="hidden sm:inline text-xs opacity-80">(ผู้บริจาค)</span></span>
+                        <span id="donor-notif-dot" class="hidden w-2 h-2 rounded-full bg-bloodRed animate-ping"></span>
+                    </button>
 
-                        <button onclick="switchRole('staff')" id="role-btn-staff"
-                            class="role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition-all relative">
-                            <i class="fa-solid fa-user-doctor"></i>
-                            <span>Hospital Staff</span>
-                            <span id="staff-pending-badge" class="ml-0.5 px-1.5 py-0.2 text-[10px] font-bold rounded-full bg-amber-500 text-white">1</span>
-                        </button>
+                    <button onclick="switchRole('staff')" id="role-btn-staff"
+                        class="role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all relative">
+                        <i class="fa-solid fa-user-doctor"></i>
+                        <span>Hospital Staff <span class="hidden sm:inline text-xs opacity-80">(เจ้าหน้าที่ รพ.)</span></span>
+                        <span id="staff-pending-badge" class="ml-1 px-1.5 py-0.2 text-[11px] font-bold rounded-full bg-amber-500 text-white">1</span>
+                    </button>
 
-                        <button onclick="switchRole('architecture')" id="role-btn-architecture"
-                            class="role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition-all">
-                            <i class="fa-solid fa-diagram-project"></i>
-                            <span>8 Steps</span>
-                        </button>
-                    </div>
-
-                    <!-- Desktop Logout Button -->
-                    <button onclick="logoutUser()" class="hidden lg:flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-100 hover:bg-bloodRed text-slate-700 hover:text-white text-xs font-semibold border border-slate-200 transition">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <span>ออกจากระบบ</span>
+                    <button onclick="switchRole('architecture')" id="role-btn-architecture"
+                        class="role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all">
+                        <i class="fa-solid fa-diagram-project"></i>
+                        <span class="hidden md:inline">Process & Design</span>
+                        <span class="md:hidden">8 Steps</span>
                     </button>
                 </div>
             </div>
@@ -391,7 +282,6 @@
             </div>
         </div>
     </footer>
-    </div> <!-- End #main-app-shell -->
 
     <!-- Modal for 'ดูรายละเอียด' (View Details) -->
     <div id="detail-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-medicalNavy/50 backdrop-blur-sm p-4">
@@ -412,7 +302,7 @@
     </div>
 
     <!-- Toast Notification Container (No alert() used!) -->
-    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+    <div id="toast-container" class="fixed bottom-5 right-5 z-[70] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
 
     <script>
         // ==========================================
@@ -541,9 +431,6 @@
 
         // App State
         let state = {
-            isAuthenticated: false,
-            selectedLoginRole: 'requester',
-            currentUser: { name: 'คุณวิภาดา วัฒนากูล', roleLabel: 'Requester' },
             currentRole: 'requester', // requester | donor | staff | architecture
             currentTab: 'home',
             requests: JSON.parse(JSON.stringify(INITIAL_REQUESTS)),
@@ -579,122 +466,18 @@
         };
 
         // ==========================================
-        // 2. AUTHENTICATION & CORE NAVIGATION
+        // 2. CORE NAVIGATION & UI HELPERS
         // ==========================================
-        const DEMO_ACCOUNTS = {
-            requester: {
-                username: 'wipada.requester@bloodmatch.th',
-                displayName: 'คุณวิภาดา วัฒนากูล',
-                roleLabel: 'Requester (ผู้ขอรับเลือด)'
-            },
-            donor: {
-                username: 'kittipong.donor@bloodmatch.th',
-                displayName: 'คุณกิตติพงศ์ ใจดี (O-)',
-                roleLabel: 'Donor (ผู้บริจาค)'
-            },
-            staff: {
-                username: 'staff.ramathibodi@bloodmatch.th',
-                displayName: 'พว.สุภาพร (รพ.รามาธิบดี)',
-                roleLabel: 'Hospital Staff'
-            }
-        };
-
-        function selectLoginRole(role) {
-            state.selectedLoginRole = role;
-            const acc = DEMO_ACCOUNTS[role];
-            const usernameInput = document.getElementById('login-username');
-            const hint = document.getElementById('login-role-hint');
-
-            if (usernameInput) usernameInput.value = acc.username;
-            if (hint) hint.textContent = `บัญชีทดสอบ: ${acc.displayName}`;
-
-            // Update card styles matching Slide 14 palette
-            const cardConfigs = {
-                requester: { active: 'border-bloodRed bg-bloodRed-light/60 shadow-sm', inactive: 'border-slate-200 bg-white hover:bg-bloodRed-light/20' },
-                donor: { active: 'border-medicalNavy bg-softBlue-light/70 shadow-sm', inactive: 'border-slate-200 bg-white hover:bg-softBlue-light/20' },
-                staff: { active: 'border-successGreen bg-successGreen-light/70 shadow-sm', inactive: 'border-slate-200 bg-white hover:bg-successGreen-light/20' }
-            };
-
-            ['requester', 'donor', 'staff'].forEach(r => {
-                const card = document.getElementById(`login-role-card-${r}`);
-                if (!card) return;
-                const styleClass = r === role ? cardConfigs[r].active : cardConfigs[r].inactive;
-                card.className = `p-3.5 rounded-2xl border-2 text-left transition-all flex sm:flex-col items-center sm:items-start gap-3 sm:gap-2 ${styleClass}`;
-            });
-        }
-
-        function togglePasswordVisibility() {
-            const pwd = document.getElementById('login-password');
-            const icon = document.getElementById('password-eye-icon');
-            if (pwd.type === 'password') {
-                pwd.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                pwd.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
-            }
-        }
-
-        function handleLoginSubmit(e) {
-            e.preventDefault();
-            completeLogin(state.selectedLoginRole);
-        }
-
-        function quickDemoLogin(role) {
-            selectLoginRole(role);
-            completeLogin(role);
-        }
-
-        function enterGuestArchitecture() {
-            state.isAuthenticated = true;
-            state.currentUser = { name: 'ผู้เยี่ยมชมระบบ', roleLabel: 'System Overview' };
-            state.currentRole = 'architecture';
-            state.currentTab = 'process';
-            updateAuthVisibility();
-            renderApp();
-        }
-
-        function completeLogin(role) {
-            const acc = DEMO_ACCOUNTS[role];
-            state.isAuthenticated = true;
-            state.currentUser = { name: acc.displayName, roleLabel: acc.roleLabel };
-            state.currentRole = role;
-            state.currentTab = ROLE_TABS[role][0].id;
-            updateAuthVisibility();
-            showToast(`ยินดีต้อนรับ ${acc.displayName} เข้าสู่ระบบ Blood Donor Match`, 'success');
-            renderApp();
-        }
-
-        function logoutUser() {
-            state.isAuthenticated = false;
-            updateAuthVisibility();
-            selectLoginRole(state.selectedLoginRole);
-            showToast('ออกจากระบบเรียบร้อยแล้ว', 'info');
-        }
-
-        function updateAuthVisibility() {
-            const loginScreen = document.getElementById('login-screen');
-            const appShell = document.getElementById('main-app-shell');
-
-            if (state.isAuthenticated) {
-                loginScreen.classList.add('hidden');
-                appShell.classList.remove('hidden');
-                appShell.classList.add('flex');
-            } else {
-                loginScreen.classList.remove('hidden');
-                appShell.classList.add('hidden');
-                appShell.classList.remove('flex');
-            }
-        }
-
         function switchRole(role, tab = null) {
             state.currentRole = role;
             state.currentTab = tab || ROLE_TABS[role][0].id;
-            if (DEMO_ACCOUNTS[role]) {
-                state.currentUser = {
-                    name: DEMO_ACCOUNTS[role].displayName,
-                    roleLabel: DEMO_ACCOUNTS[role].roleLabel
-                };
+            renderApp();
+        }
+
+        function switchTab(tab) {
+            state.currentTab = tab;
+            if (state.currentRole === 'donor' && tab === 'notification') {
+                state.notifications.forEach(n => n.read = true);
             }
             renderApp();
         }
@@ -776,12 +559,6 @@
         // 3. RENDER NAVIGATION & BADGES
         // ==========================================
         function updateNavUI() {
-            // Update Active User Badge
-            const userBadge = document.getElementById('active-user-badge');
-            if (userBadge && state.currentUser) {
-                userBadge.innerHTML = `<i class="fa-solid fa-circle-user text-bloodRed mr-1"></i>${state.currentUser.name}`;
-            }
-
             // Update Role Tabs
             const roles = ['requester', 'donor', 'staff', 'architecture'];
             const roleColors = {
@@ -794,9 +571,9 @@
             roles.forEach(r => {
                 const btn = document.getElementById(`role-btn-${r}`);
                 if (r === state.currentRole) {
-                    btn.className = `role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${roleColors[r]}`;
+                    btn.className = `role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${roleColors[r]}`;
                 } else {
-                    btn.className = `role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium text-slate-600 hover:bg-white hover:text-medicalNavy transition-all`;
+                    btn.className = `role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-white hover:text-medicalNavy transition-all`;
                 }
             });
 
@@ -2108,10 +1885,96 @@
             }
         }
 
+        // ==========================================
+        // LOGIN / LOGOUT
+        // ==========================================
+        const DEMO_ACCOUNTS = {
+            requester: { email: 'requester@demo.th', password: 'demo1234', name: 'คุณวิภาดา วัฒนากูล', label: 'ผู้ขอรับเลือด' },
+            donor:     { email: 'donor@demo.th',     password: 'demo1234', name: 'คุณกิตติพงศ์ ใจดี',  label: 'ผู้บริจาค' },
+            staff:     { email: 'staff@demo.th',     password: 'demo1234', name: 'เจ้าหน้าที่ รพ.รามาธิบดี', label: 'เจ้าหน้าที่ รพ.' }
+        };
+        const LOGIN_ROLES = {
+            requester: { icon: 'fa-hand-holding-medical', active: 'border-bloodRed bg-bloodRed-light text-bloodRed' },
+            donor:     { icon: 'fa-heart-pulse',          active: 'border-medicalNavy bg-softBlue-light text-medicalNavy' },
+            staff:     { icon: 'fa-user-doctor',          active: 'border-successGreen bg-successGreen-light text-successGreen' }
+        };
+        let loginRole = 'requester';
+
+        function selectLoginRole(role, refocus = false) {
+            loginRole = role;
+            document.getElementById('login-roles').innerHTML = Object.entries(LOGIN_ROLES).map(([key, v]) => {
+                const on = key === role;
+                return `<button type="button" role="radio" aria-checked="${on}" onclick="selectLoginRole('${key}', true)"
+                    class="flex flex-col items-center gap-1.5 px-2 py-3 rounded-2xl border-2 text-xs font-semibold transition ${on ? v.active : 'border-slate-200 text-slate-500 hover:border-slate-300'}">
+                    <i class="fa-solid ${v.icon} text-lg"></i><span>${DEMO_ACCOUNTS[key].label}</span>
+                </button>`;
+            }).join('');
+            document.getElementById('login-error').classList.add('hidden');
+            if (refocus) document.querySelector('#login-roles [aria-checked="true"]').focus();
+        }
+
+        function showLoginError(msg) {
+            const el = document.getElementById('login-error');
+            el.textContent = msg;
+            el.classList.remove('hidden');
+        }
+
+        function toggleLoginPassword() {
+            const input = document.getElementById('login-password');
+            const btn = document.getElementById('login-pw-toggle');
+            const show = input.type === 'password';
+            input.type = show ? 'text' : 'password';
+            btn.innerHTML = `<i class="fa-solid ${show ? 'fa-eye-slash' : 'fa-eye'}"></i>`;
+            btn.setAttribute('aria-label', show ? 'ซ่อนรหัสผ่าน' : 'แสดงรหัสผ่าน');
+        }
+
+        function fillDemoAccount() {
+            const acc = DEMO_ACCOUNTS[loginRole];
+            document.getElementById('login-email').value = acc.email;
+            document.getElementById('login-password').value = acc.password;
+            document.getElementById('login-error').classList.add('hidden');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim().toLowerCase();
+            const password = document.getElementById('login-password').value;
+            const acc = DEMO_ACCOUNTS[loginRole];
+
+            if (!email || !password) {
+                showLoginError('กรอกอีเมลและรหัสผ่านให้ครบก่อนเข้าสู่ระบบ');
+                return;
+            }
+            if (email !== acc.email || password !== acc.password) {
+                showLoginError(`อีเมลหรือรหัสผ่านไม่ตรงกับบัญชีของ${acc.label} ตรวจสอบอีกครั้ง หรือกด "ใช้บัญชีตัวอย่าง"`);
+                return;
+            }
+
+            document.getElementById('login-screen').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            document.getElementById('user-name').textContent = acc.name;
+            document.getElementById('user-role').textContent = acc.label;
+            switchRole(loginRole);
+            window.scrollTo(0, 0);
+            showToast(`เข้าสู่ระบบแล้ว ยินดีต้อนรับ ${acc.name}`, 'success');
+        }
+
+        function handleLogout() {
+            closeModal();
+            document.getElementById('login-password').value = '';
+            document.getElementById('login-password').type = 'password';
+            document.getElementById('login-pw-toggle').innerHTML = '<i class="fa-solid fa-eye"></i>';
+            selectLoginRole(loginRole);
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+            document.getElementById('login-email').focus();
+            showToast('ออกจากระบบแล้ว', 'info');
+        }
+
+        selectLoginRole('requester');
+
         // Initialize on load
         window.onload = function() {
-            selectLoginRole('requester');
-            updateAuthVisibility();
             renderApp();
         };
     </script>
