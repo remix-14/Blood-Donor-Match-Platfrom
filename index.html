@@ -166,30 +166,18 @@
     <!-- Top Navigation & Role Switcher -->
     <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between py-3 gap-3">
+            <div class="grid grid-cols-[1fr_auto] xl:grid-cols-[auto_1fr_auto] items-center py-3 gap-x-4 gap-y-3">
                 
                 <!-- Brand Title (Matching Slide Header) -->
-                <div class="flex items-center justify-between">
+                <div class="order-1 flex items-center justify-between gap-3">
                     <div class="flex items-center gap-3">
                         <div class="w-2.5 h-9 bg-bloodRed rounded-full"></div>
                         <div>
-                            <span class="text-xs font-semibold tracking-wider text-bloodRed uppercase block">Blood Donor Match</span>
+                            <span class="text-xs font-semibold tracking-wider text-bloodRed uppercase block whitespace-nowrap">Blood Donor Match</span>
                             <h1 class="text-xl sm:text-2xl font-bold text-medicalNavy flex items-center gap-2">
                                 <span class="text-xs font-normal px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">Interactive Demo</span>
                             </h1>
                         </div>
-                    </div>
-
-                    <!-- Logged-in user -->
-                    <div id="user-chip" class="ml-auto lg:ml-6 mr-1 flex items-center gap-2">
-                        <div class="w-8 h-8 rounded-full bg-medicalNavy text-white flex items-center justify-center text-xs shrink-0"><i class="fa-solid fa-user"></i></div>
-                        <div class="hidden sm:block leading-tight">
-                            <span id="user-name" class="block text-sm font-semibold text-medicalNavy"></span>
-                            <span id="user-role" class="block text-[11px] text-slate-500"></span>
-                        </div>
-                        <button onclick="handleLogout()" aria-label="ออกจากระบบ" class="flex items-center gap-1.5 px-3 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-medium transition">
-                            <i class="fa-solid fa-right-from-bracket"></i><span class="hidden sm:inline">ออกจากระบบ</span>
-                        </button>
                     </div>
 
                     <!-- Mobile Notification Quick Badge -->
@@ -199,30 +187,42 @@
                     </button>
                 </div>
 
+                <!-- Logged-in user -->
+                <div id="user-chip" class="order-2 xl:order-none justify-self-end flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-medicalNavy text-white flex items-center justify-center text-xs shrink-0"><i class="fa-solid fa-user"></i></div>
+                    <div class="hidden sm:block leading-tight">
+                        <span id="user-name" class="block whitespace-nowrap text-sm font-semibold text-medicalNavy"></span>
+                        <span id="user-role" class="block whitespace-nowrap text-[11px] text-slate-500"></span>
+                    </div>
+                    <button onclick="handleLogout()" aria-label="ออกจากระบบ" class="flex items-center gap-1.5 whitespace-nowrap px-3 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-medium transition">
+                        <i class="fa-solid fa-right-from-bracket"></i><span class="hidden sm:inline">ออกจากระบบ</span>
+                    </button>
+                </div>
+
                 <!-- Role Switcher Pills -->
-                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200/80">
+                <div class="order-3 col-span-2 xl:order-none xl:col-span-1 xl:justify-self-center flex flex-wrap xl:flex-nowrap items-center gap-1.5 sm:gap-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200/80">
                     <button onclick="switchRole('requester')" id="role-btn-requester"
-                        class="role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all">
+                        class="role-tab whitespace-nowrap flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all">
                         <i class="fa-solid fa-hand-holding-medical"></i>
-                        <span>Requester <span class="hidden sm:inline text-xs opacity-80">(ผู้ขอรับเลือด)</span></span>
+                        <span>Requester <span class="hidden sm:inline xl:hidden 2xl:inline text-xs opacity-80">(ผู้ขอรับเลือด)</span></span>
                     </button>
 
                     <button onclick="switchRole('donor')" id="role-btn-donor"
-                        class="role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all relative">
+                        class="role-tab whitespace-nowrap flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all relative">
                         <i class="fa-solid fa-heart-pulse"></i>
-                        <span>Donor <span class="hidden sm:inline text-xs opacity-80">(ผู้บริจาค)</span></span>
+                        <span>Donor <span class="hidden sm:inline xl:hidden 2xl:inline text-xs opacity-80">(ผู้บริจาค)</span></span>
                         <span id="donor-notif-dot" class="hidden w-2 h-2 rounded-full bg-bloodRed animate-ping"></span>
                     </button>
 
                     <button onclick="switchRole('staff')" id="role-btn-staff"
-                        class="role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all relative">
+                        class="role-tab whitespace-nowrap flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all relative">
                         <i class="fa-solid fa-user-doctor"></i>
-                        <span>Hospital Staff <span class="hidden sm:inline text-xs opacity-80">(เจ้าหน้าที่ รพ.)</span></span>
+                        <span>Hospital Staff <span class="hidden sm:inline xl:hidden 2xl:inline text-xs opacity-80">(เจ้าหน้าที่ รพ.)</span></span>
                         <span id="staff-pending-badge" class="ml-1 px-1.5 py-0.2 text-[11px] font-bold rounded-full bg-amber-500 text-white">1</span>
                     </button>
 
                     <button onclick="switchRole('architecture')" id="role-btn-architecture"
-                        class="role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all">
+                        class="role-tab whitespace-nowrap flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all">
                         <i class="fa-solid fa-diagram-project"></i>
                         <span class="hidden md:inline">Process & Design</span>
                         <span class="md:hidden">8 Steps</span>
@@ -571,9 +571,9 @@
             roles.forEach(r => {
                 const btn = document.getElementById(`role-btn-${r}`);
                 if (r === state.currentRole) {
-                    btn.className = `role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${roleColors[r]}`;
+                    btn.className = `role-tab whitespace-nowrap flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${roleColors[r]}`;
                 } else {
-                    btn.className = `role-tab flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-white hover:text-medicalNavy transition-all`;
+                    btn.className = `role-tab whitespace-nowrap flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-white hover:text-medicalNavy transition-all`;
                 }
             });
 
